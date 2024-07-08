@@ -1,4 +1,4 @@
-This code aimed at verifying that the retroaction of the variation of hbar onto the equation of state of the star have almost no impact. 
+This code aimed at verifying that the retroaction of the variation of hbar onto the equation of state of the star have almost no impact.
 
 To launch the codes, you firstly need to install the packages present in the file ... 
 

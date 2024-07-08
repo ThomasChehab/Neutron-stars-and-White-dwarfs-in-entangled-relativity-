@@ -1,4 +1,4 @@
-This code aimed at studying the variation of hbar predicted by the theory regarding the value of the core density. 
+This code aimed at studying the variation of hbar predicted by the theory regarding the value of the core density.
 
 To launch the codes, you firstly need to install the packages present in the file ... 
 
@@ -9,5 +9,5 @@ After you have to launch a terminal into the folder that contains the codes and,
 This line will launch the code, the duration is of some minutes at maximum. It will leads to the production of four different things. 
 
 - Three folders, one contains the stored data of the predicted values of hbar ("hbar_folder"), another contains the stored data of the radius of the star ("radius_folder") and the last one contains the core density values ("init_density_folder"). These contains the values for 198 different white dwarf simulation. 
-- A figure named "deltahbar_vs_radius_WD.png", Which shows the variation of hbar versus the distance to the star regarding the core density values. It the figure 6 in the paper. 
+- A figure named "deltahbar_vs_radius_WD.png", Which shows the variation of hbar versus the distance to the star regarding the core density values. It is the figure 6 in the paper.
 
