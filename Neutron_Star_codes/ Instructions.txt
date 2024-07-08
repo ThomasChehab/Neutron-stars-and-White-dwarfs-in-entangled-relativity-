@@ -1,0 +1,12 @@
+This code aimed at verifying that the retroaction of the variation of hbar onto the equation of state of the star have almost no impact. 
+
+To launch the codes, you firstly need to install the packages present in the file ... 
+
+After you have to launch a terminal into the folder that contains the codes and, in an appropriate environment, you write : 
+
+" python3 Get_all_figures.py " 
+
+This line will launch the code, the duration is of some minutes at maximum. It will leads to the production of three different things. 
+
+- Two folders, one contains the stored data of the predicted values of hbar ("hbar_folder") and the other the stored data of the radius of the star ("radius_folder"). These contains the values with and without the retroaction. 
+- A figure named "hbar_variation_comparison_NS.png", Which shows the variation of hbar versus the distance to the star in both cases. It is the figure 5 in the paper. 
