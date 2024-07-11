@@ -297,7 +297,7 @@ class TOV():
         Init_density.append(self.initDensity)
         Name = "./init_density_folder/init_density.txt"
         if not os.path.exists(Name):
-            open(Name, 'a').close()  
+            open(Name, 'a').close()
         with open(Name, 'a') as f:
             for element in Init_density:
                 f.write(str(element) + '\n')
@@ -325,7 +325,7 @@ class TOV():
                 f.write(str(element) + '\n')
         
     #Next function goal is to recover data of white dwarf and obtain the final plot. 
-    def Plot_all_hbar(self, count):
+    def Plot_all_hbar(self):
         
         #Recovering density data
         density = []
@@ -335,12 +335,11 @@ class TOV():
             density.append(x)
         for i in range(len(density)):
             density[i] = float(density[i])
-        density = np.array(density)/(1e10)
+        density = np.array(density)/(1e12)
         
         #Recovering hbar data
-        print(count)
         hbar = []
-        for i in range(198):
+        for i in range(len(density)):
             file_path_hbar = (f'./hbar_folder/hbar_data{i}.txt')
             f = open(file_path_hbar, 'r')
             hbar_0 = []
@@ -353,7 +352,7 @@ class TOV():
                  
         #Recovering radius data
         radius = []
-        for i in range(198):
+        for i in range(len(density)):
             file_path_radius = (f'./radius_folder/radius_data{i}.txt')
             f = open(file_path_radius, 'r')
             radius_0 = []
@@ -370,7 +369,7 @@ class TOV():
         fig, ax = plt.subplots(figsize=(11, 6))
         cmap = plt.cm.gray_r
         adjusted_cmap = mcolors.LinearSegmentedColormap.from_list(
-            'adjusted_gray_r', cmap(np.linspace(0.2, 0.8, 256)))
+            'adjusted_gray_r', cmap(np.linspace(0.2, 0.8, 300)))
         colors = adjusted_cmap(density)
         for i in range(len(hbar)):
             ax.plot(radius[i], hbar[i], color=colors[i])
@@ -378,11 +377,11 @@ class TOV():
         sm = plt.cm.ScalarMappable(cmap=adjusted_cmap, norm=norm)
         sm.set_array([]) 
         cbar = fig.colorbar(sm, ax=ax, ticks=np.linspace(np.min(density), np.max(density), num=5))
-        cbar.set_label('Core density (kg/m$^3$) $\\times$ 1e10 ', fontsize=20)
+        cbar.set_label('Core density (kg/m$^3$) $\\times$ 1e12 ', fontsize=20)
         cbar.ax.yaxis.set_major_formatter(FormatStrFormatter('%.2g'))
         ax.set_xlabel('Radius (km) $\\times$ 1e5', fontsize=19)
-        ax.set_ylabel(r'$-\delta \hbar/\hbar$', fontsize=19) 
-        plt.ylim([5e-12, 0.4e-6])
+        ax.set_ylabel(r'$\delta \hbar = \hbar - \hbar|_{r \rightarrow \infty}$', fontsize=19) 
+        plt.ylim([5e-12, 4e-5])
         ax.set_yscale('log')
         plt.rc('xtick', labelsize=18)
         plt.rc('ytick', labelsize=18)
