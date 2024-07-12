@@ -18,7 +18,7 @@ massSun = 1.989*10**30
 #Equation of state
 def PEQS(Phi, rho, retro):
     if retro == False:
-        return k*rho**(5/3) 
+        return k*rho**(5/3)
     else:
         return k*rho**(5/3) * Phi**(-1)
 
@@ -108,7 +108,7 @@ def f3(r, P, m, Psi, Phi, option, dilaton_active):
 #Define for dy/dr
 def dy_dr(r, y, option, dilaton_active, retro):
     P, M, Phi, Psi = y
-    dy_dt = [f1(r, P, M, Psi, Phi,option, retro), f2(r, P, M, Psi, Phi, option, retro),f3(r, P, M, Psi, Phi, option, dilaton_active),f4(r, P, M, Psi, Phi, option, dilaton_active, retro)]    
+    dy_dt = [f1(r, P, M, Psi, Phi,option, retro), f2(r, P, M, Psi, Phi, option, retro),f3(r, P, M, Psi, Phi, option, dilaton_active),f4(r, P, M, Psi, Phi, option, dilaton_active, retro)]
     return dy_dt
 
 #Define for dy/dr out of the star
@@ -117,22 +117,22 @@ def dy_dr_out(r, y, P, option, dilaton_active, retro):
     dy_dt = [f2(r, P, M, Psi, Phi, option, retro),f3(r, P, M, Psi, Phi, option, dilaton_active),f4(r, P, M, Psi, Phi, option, dilaton_active, retro)]
     return dy_dt
 
-
 class TOV():
 
-    def __init__(self, initDensity, initPsi, initPhi, radius_init, radiusMax_in, radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, precision, retro):
-        
-        #Init value
+    def __init__(self, initDensity, initPsi, initPhi, radiusMax_in, radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, retro):
+#Init value
+        self.initDensity = initDensity
         self.initPsi = initPsi
         self.initPhi = initPhi
-        self.initDensity = initDensity
-        self.initPressure = PEQS(self.initPhi, self.initDensity, retro)
         self.initMass = 0
         self.option = EQS_type
         self.dilaton_active = dilaton_active
         self.log_active = log_active
+        self.retro = retro
+        self.initPressure = PEQS(initPhi, initDensity, retro)
 
 #Computation variable
+
         self.radiusMax_in = radiusMax_in
         self.radiusMax_out = radiusMax_out
         self.Npoint = Npoint
@@ -144,7 +144,6 @@ class TOV():
         self.radiusStar = 0
         self.phiStar = 0
 #Output data
-
         self.pressure = 0
         self.mass = 0
         self.Phi = 0
@@ -156,12 +155,8 @@ class TOV():
         self.g_rr_ext = 0
         self.r_ext = 0
         self.phi_inf = 0
-        self.radiusStep = 0
         self.hbar = 0
-        self.hbar_retro = 0
-        self.precision = precision
-        self.retro = retro
-        
+
     def Compute(self):
         if self.log_active:
             print('===========================================================')
@@ -174,16 +169,15 @@ class TOV():
             print('Initial psi: ', self.initPsi)
             print('Number of points: ', self.Npoint)
             print('Radius max: ', self.radiusMax_in/1000, ' km')
-        y0 = [self.initPressure, self.initMass,self.initPhi,self.initPsi]
+        y0 = [self.initPressure,self.initMass,self.initPhi,self.initPsi]
         if self.log_active:
             print('y0 = ', y0,'\n')
         r = np.linspace(0.01,self.radiusMax_in,self.Npoint) # fixe a 50000 points
         if self.log_active:
             print('radius min ',0.01)
             print('radius max ',self.radiusMax_in)
-            
-        sol = solve_ivp(dy_dr, [0.01, self.radiusMax_in], y0, method='RK45',t_eval=r, args=(self.option,self.dilaton_active, self.retro))
-
+        sol = solve_ivp(dy_dr, [0.01, self.radiusMax_in], y0, method='RK45',t_eval=r ,args=(self.option,self.dilaton_active, self.retro))
+        # condition for Pressure = 0
         '''
         self.g_rr = b(sol.t, sol.y[1])
         a_dot_a = adota(sol.t, sol.y[0], sol.y[1], sol.y[3], sol.y[2])
@@ -191,26 +185,23 @@ class TOV():
         plt.plot(self.g_tt/self.g_rr)
         plt.show()
         '''
-        
         if sol.t[-1]<self.radiusMax_in:
             self.pressure = sol.y[0][0:-2]
             self.mass = sol.y[1][0:-2]
             self.Phi = sol.y[2][0:-2]
             self.Psi = sol.y[3][0:-2]
             self.radius = sol.t[0:-2]
-
+            # Value at the radius of star
             self.massStar = sol.y[1][-1]
             self.radiusStar = sol.t[-1]
             self.pressureStar = sol.y[0][-1]
             self.phiStar = sol.y[2][-1]
             n_star = len(self.radius)
-            
             if self.log_active:
                 print('Star radius: ', self.radiusStar/1000, ' km')
                 print('Star Mass: ', self.massStar/massSun, ' solar mass')
                 print('Star Mass: ', self.massStar, ' kg')
                 print('Star pressure: ', self.pressureStar, ' Pa\n')
-                print('Star Phi: ', self.phiStar)
                 print('===========================================================')
                 print('SOLVER OUTSIDE THE STAR')
                 print('===========================================================\n')
@@ -221,7 +212,7 @@ class TOV():
             if self.log_active:
                 print('radius min ',self.radiusStar)
                 print('radius max ',self.radiusMax_out)
-            sol = solve_ivp(dy_dr_out, [r[0], self.radiusMax_out], y0,method='DOP853', t_eval=r,max_step = 100000, args=(0,0,self.option,self.dilaton_active))
+            sol = solve_ivp(dy_dr_out, [r[0], self.radiusMax_out], y0,method='DOP853', t_eval=r,max_step = 100000, args=(0,self.option,self.dilaton_active, self.retro))
             self.pressure = np.concatenate([self.pressure, np.zeros(self.Npoint)])
             self.mass = np.concatenate([self.mass, sol.y[0]])
             self.Phi = np.concatenate([self.Phi, sol.y[1]])
@@ -230,7 +221,7 @@ class TOV():
             self.phi_inf = self.Phi[-1]
             if self.log_active:
                 print('Phi at infinity ', self.phi_inf)
-                
+            self.hbar = 1/np.sqrt(self.Phi)
             # Compute metrics
             self.g_rr = b(self.radius, self.mass)
             a_dot_a = adota(self.radius, self.pressure, self.mass, self.Psi, self.Phi)
@@ -242,11 +233,8 @@ class TOV():
             self.g_rr_ext = np.array(self.g_rr[n_star:-1])
             self.r_ext = np.array(self.radius[n_star:-1])
             self.r_ext[0] = self.radiusStar
-            
-            self.hbar = 1/np.sqrt(self.Phi) #New
-            hbar_core = np.sqrt(self.Phi[0])
-            print('HBAR CORE = ', hbar_core) #New
-                
+            star_radius_normal = self.radiusStar
+
             if self.log_active:
                 print('Star Mass ADM: ', self.massADM, ' kg')
                 print('===========================================================')
@@ -258,36 +246,32 @@ class TOV():
 
     def ComputeTOV(self):
         """
-        ComputeTOV is the function to consider in order to compute "physical" quantities. It takes into account phi_inf->1 r->infinity
+        ComputeTOV is the function to consider in order to compute "physical" quantities. It takes into account phi_inf->1 r->ininity
         """
         self.Compute()
-        #if self.dilaton_active:
-            #self.initPhi = self.initPhi/self.phi_inf
-            #self.Compute()
-        print(self.phi_inf)
-        print( -1/2 * (1/np.sqrt(self.Phi) - 1/np.sqrt(self.phi_inf)))
-            
+        print('hbar variation in % =', -2 * ((self.phi_inf - self.phiStar)/self.phi_inf) * 100)
+
 
     def find_dilaton_center(self):
-        
+
         initDensity = self.initDensity
-        radiusStep = self.radiusStep
         option = self.option
-        EQS_type = option
-        dilaton_active = self.dilaton_active
-        precision = self.precision
+        precision = 1e-8
         retro = self.retro
-        initPsi = self.initPsi
+        log_active = self.log_active
+        dilaton_active = self.dilaton_active
+        EQS_type = self.option
+        radiusMax_out = self.radiusMax_out
         radiusMax_in = self.radiusMax_in
         Npoint = self.Npoint
+        initPsi = 0
         radiusInit = 0.000001
-        dilaton = self.dilaton_active
-        log_active = self.log_active
-        
-        radiusMax_out = self.radiusMax_out
+        dilaton = True
+
         #Find limits of potential Phi_0
         Phi0_min, Phi0_max = 0.5, 1.5 # initial limits
-        tov_min = TOV(initDensity, initPsi, Phi0_min, radiusInit, radiusMax_in,  radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, precision, retro)        
+        tov_min = TOV(initDensity, initPsi, Phi0_min, radiusMax_in, radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, retro)
+
         tov_min.Compute()
         Phi_inf_min = tov_min.Phi[-1]
         while Phi_inf_min > 1:
@@ -295,76 +279,72 @@ class TOV():
             if Phi0_min == 0:
                 Phi0_min = 1e-2
     #             print(f'Had to put l.h.s. limit of $\Phi_0$ to {Phi0_min}')
-            tov_min = TOV(initDensity, initPsi, Phi0_min, radiusInit, radiusMax_in,  radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, precision, retro)
+            tov_min = TOV(initDensity, initPsi, Phi0_min, radiusMax_in, radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, retro)
             tov_min.Compute()
             Phi_inf_min = tov_min.Phi[-1]
     #         print(f'Had to lower down the l.h.s.limit of $\Phi_0$ to {Phi0_min:.1f}')
-            
-        tov_max = TOV(initDensity, initPsi, Phi0_max, radiusInit, radiusMax_in,  radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, precision, retro)
+
+        tov_max = TOV(initDensity, initPsi, Phi0_max, radiusMax_in, radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, retro)
         tov_max.Compute()
         Phi_inf_max = tov_max.Phi[-1]
         while Phi_inf_max <1:
             Phi0_max += 0.1
-            tov_max = TOV(initDensity, initPsi, Phi0_max, radiusInit, radiusMax_in,  radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, precision, retro)
+            tov_max = TOV(initDensity, initPsi, Phi0_max, radiusMax_in, radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, retro)
             tov_max.Compute()
             Phi_inf_max = tov_max.Phi[-1]
     #         print(f'Had to increase the r.h.s. limit of $\Phi_0$ to {Phi0_max:.1f}')
-            
+
         #Search for Phi_0 that leads to Phi_inf = 1 to a given precision by dichotomy
         step_precision = 1
         Phi0_dicho = np.array([Phi0_min, (Phi0_min + Phi0_max) / 2, Phi0_max])
         Phi_inf_dicho = np.zeros(3)
         while step_precision > precision:
             for n in range(3):
-                tov = TOV(initDensity, initPsi, Phi0_dicho[n], radiusInit, radiusMax_in,  radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, precision, retro)
+                tov = TOV(initDensity, initPsi, Phi0_dicho[n], radiusMax_in, radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, retro)
                 tov.Compute()
-                Phi_inf_dicho[n] = tov.Phi[-1] 
+                Phi_inf_dicho[n] = tov.Phi[-1]
             N = np.min(np.argwhere(Phi_inf_dicho>1))
             Phi0_min = Phi0_dicho[N-1]
             Phi0_max = Phi0_dicho[N]
             Phi0_dicho = [Phi0_min, (Phi0_min + Phi0_max) / 2, Phi0_max]
             step_precision = np.abs(Phi_inf_dicho[N] - Phi_inf_dicho[N-1])
             Phi = (Phi0_min + Phi0_max) / 2
-            self.PhiInit = Phi
         return Phi, (Phi0_min + Phi0_max) / 2, (Phi0_min - Phi0_max) / 2, (Phi_inf_dicho[N] + Phi_inf_dicho[N-1]) / 2
-            
-            
-      ############################################################################################
-            
-            
+
+
     #Recording hbar data in a specific folder
     def hbar_into_txt(self):
         folder_path = './hbar_folder'
-        if not os.path.exists(folder_path): 
-            os.makedirs(folder_path) 
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
         Name = "./hbar_folder/hbar_data.txt"
         if not os.path.exists(Name):
-            open(Name, 'w').close()  
+            open(Name, 'w').close()
         with open(Name, 'w') as f:
             for element in self.hbar:
                 f.write(str(element) + '\n')
-                
+
     #Recording radius data in a specific folder
     def radius_into_txt(self):
         folder_path = './radius_folder'
-        if not os.path.exists(folder_path): 
-            os.makedirs(folder_path) 
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
         Name = "./radius_folder/radius_data.txt"
         if not os.path.exists(Name):
-            open(Name, 'w').close()  
+            open(Name, 'w').close()
         with open(Name, 'w') as f:
             for element in self.radius:
                 f.write(str(element) + '\n')
 
-                
+
     #Recording radius_retro data in a specific folder
     def radius_retro_into_txt(self):
         folder_path = './radius_folder'
-        if not os.path.exists(folder_path): 
-            os.makedirs(folder_path) 
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
         Name = "./radius_folder/radius_retro_data.txt"
         if not os.path.exists(Name):
-            open(Name, 'w').close()  
+            open(Name, 'w').close()
         with open(Name, 'w') as f:
             for element in self.radius:
                 f.write(str(element) + '\n')
@@ -373,11 +353,11 @@ class TOV():
     #Recording hbar_retro data in a specific folder
     def hbar_retro_into_txt(self):
         folder_path = './hbar_folder'
-        if not os.path.exists(folder_path): 
-            os.makedirs(folder_path) 
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
         Name = "./hbar_folder/hbar_retro_data.txt"
         if not os.path.exists(Name):
-            open(Name, 'w').close()  
+            open(Name, 'w').close()
         with open(Name, 'w') as f:
             for element in self.hbar:
                 f.write(str(element) + '\n')
@@ -393,8 +373,8 @@ class TOV():
             hbar.append(x)
         for i in range(len(hbar)):
             hbar[i] = float(hbar[i])
-                
-                
+
+
         #Recovering radius data
         radius = []
         file_path = ('./radius_folder/radius_data.txt')
@@ -403,7 +383,7 @@ class TOV():
             radius.append(x)
         for i in range(len(radius)):
             radius[i] = float(radius[i])
-            
+
         #Recovering hbar_retro data
         hbar_retro = []
         file_path = ('./hbar_folder/hbar_retro_data.txt')
@@ -412,7 +392,7 @@ class TOV():
             hbar_retro.append(x)
         for i in range(len(hbar_retro)):
             hbar_retro[i] = float(hbar_retro[i])
-                
+
         #Recovering radius_retro data
         radius_retro = []
         file_path = ('./radius_folder/radius_retro_data.txt')
@@ -421,14 +401,14 @@ class TOV():
             radius_retro.append(x)
         for i in range(len(radius_retro)):
             radius_retro[i] = float(radius_retro[i])
-            
+
         radius_normal = np.array(radius)
         radius_normal /= 1e3
         radius_retro = np.array(radius_retro)
         radius_retro /= 1e3
         hbar_normal = np.array(hbar)
         hbar_retro = np.array(hbar_retro)
-                
+
         #Plot
         star_radius= self.radiusStar/1e3
         plt.figure()
@@ -436,15 +416,13 @@ class TOV():
         plt.plot(radius_normal, hbar_normal, label = 'Without retroaction' )
         plt.xlim(-2, 60)
         #plt.ylim(0.999,1.045)
-        plt.axvline(star_radius, color='r', linestyle='--', label='Star radius')
-        #plt.fill_between(radius_retro, hbar_normal, hbar_retro, where=(hbar_retro > hbar_normal), color='lightgray', alpha=0.5)
+        #plt.axvline(star_radius, color='r', linestyle='--', label='Star radius') Pb  -> diffrence de longueur
+        plt.fill_between(radius_retro, hbar_normal, hbar_retro, where=(hbar_retro > hbar_normal), color='lightgray', alpha=0.5)
         plt.xlabel('Radius (km) $\\times$ 1e3', fontsize=19)
         plt.ylabel(r'$\hbar$ variation', fontsize=22)
         plt.legend()
         plt.savefig('./hbar_variation_comparison_NS')
         plt.show()
-
-        
                
     #def Plot(self):
         #plt.subplot(221)
