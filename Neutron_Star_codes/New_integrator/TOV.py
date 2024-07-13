@@ -416,7 +416,7 @@ class TOV():
         plt.plot(radius_normal, hbar_normal, label = 'Without retroaction' )
         plt.xlim(-2, 60)
         #plt.ylim(0.999,1.045)
-        #plt.axvline(star_radius, color='r', linestyle='--', label='Star radius') Pb  -> diffrence de longueur
+        #plt.axvline(star_radius, color='r', linestyle='--', label='Star radius')
         plt.fill_between(radius_retro, hbar_normal, hbar_retro, where=(hbar_retro > hbar_normal), color='lightgray', alpha=0.5)
         plt.xlabel('Radius (km) $\\times$ 1e3', fontsize=19)
         plt.ylabel(r'$\hbar$ variation', fontsize=22)
