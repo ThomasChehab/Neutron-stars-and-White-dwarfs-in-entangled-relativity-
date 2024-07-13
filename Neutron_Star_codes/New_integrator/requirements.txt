@@ -1,0 +1,6 @@
+lalsuite==7.21.1.dev20240308
+matplotlib==3.8.0
+mplhep==0.3.35
+numpy==2.0.0
+scipy==1.14.0
+tqdm==4.65.0
