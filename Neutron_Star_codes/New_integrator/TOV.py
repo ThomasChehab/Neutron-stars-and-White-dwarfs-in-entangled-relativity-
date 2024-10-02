@@ -399,7 +399,6 @@ class TOV():
         radius_retro /= 1e3
         hbar_normal = np.array(hbar)
         hbar_retro = np.array(hbar_retro)
-
         #Plot
         star_radius= self.radiusStar/1e3
         plt.figure()
