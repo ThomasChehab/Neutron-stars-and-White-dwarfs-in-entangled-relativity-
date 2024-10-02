@@ -1,28 +1,23 @@
 from TOV import *
-
 import matplotlib
-# matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import scipy.constants as cst
 import numpy as np
-
+from tqdm import tqdm
+from lal import  C_SI, HBAR_SI, H_SI, G_SI, MSUN_SI
+M_sun = MSUN_SI
+import pickle
 import os
 
-#################################################################
-#Changement :
+
 c2 = cst.c**2
-
-
-#################################################################
-
-
 PhiInit = 1
 PsiInit = 0
 option = 1
 radiusMax_in = 50000
 radiusMax_out = 100000000
 Npoint = 50000
-log_active = True
+log_active = False
 dilaton = True
 
 retro = False

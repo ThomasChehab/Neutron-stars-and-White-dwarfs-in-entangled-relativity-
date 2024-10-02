@@ -2,13 +2,16 @@
 import scipy.constants as cst
 import matplotlib
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+from matplotlib.ticker import FormatStrFormatter
 import numpy as np
 from numpy import linalg as npla
 from scipy.integrate import solve_ivp
 from scipy.integrate import cumtrapz as integcum
 from scipy.integrate import trapz as integ
-
 import os
+import mplhep as hep
+hep.style.use("ATLAS")
 
 c2 = cst.c**2
 kappa = 8*np.pi*cst.G/c2**2
@@ -415,14 +418,14 @@ class TOV():
         plt.plot(radius_retro, hbar_retro, label = 'With retroaction')
         plt.plot(radius_normal, hbar_normal, label = 'Without retroaction' )
         plt.xlim(-2, 60)
-        #plt.ylim(0.999,1.045)
-        #plt.axvline(star_radius, color='r', linestyle='--', label='Star radius')
+        plt.ylim(0.999,1.045)
+        plt.axvline(star_radius, color='r', linestyle='--', label='Star radius')
         plt.fill_between(radius_retro, hbar_normal, hbar_retro, where=(hbar_retro > hbar_normal), color='lightgray', alpha=0.5)
         plt.xlabel('Radius (km) $\\times$ 1e3', fontsize=19)
         plt.ylabel(r'$\hbar$ variation', fontsize=22)
         plt.legend()
         plt.savefig('./hbar_variation_comparison_NS')
-        plt.show()
+        #plt.show()
                
     #def Plot(self):
         #plt.subplot(221)
