@@ -14,7 +14,9 @@ radiusMax_in = 20000000
 radiusMax_out = 100000000
 Npoint = 50000
 log_active = False # change for True for seeing star's data
-densities = np.linspace(np.log(998290676), np.log(9982906761116), 249)
+lowest_density = 1e9 # kg/m-3
+highest_density = 1e13
+densities = np.linspace(np.log(lowest_density), np.log(highest_density), 249)
 densities = np.exp(densities)
 count = 0
 for density in (densities):
