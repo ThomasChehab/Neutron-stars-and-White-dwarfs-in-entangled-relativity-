@@ -122,6 +122,24 @@ def dy_dr_out(r, y, P, option, dilaton_active, retro):
     return dy_dt
 
 class TOV():
+    """
+    * Initialization
+        - initDensity : initial value of density [MeV/fm3] (at the center of the star)
+        - initPsi : initial value of psi (= 1).
+        - initPhi : initial value for the derivative of psi (= 0).
+        - radiusMax_in : For star interior, the solver integrates until it reach radiusMax_in.
+        - radiusMax_out : For star exterior, the solver integrates until it reach radiusMax_out.
+        - Npoint : Number at which the solution is evaluated (t_span Parameter in solve_ivp).
+        - option : Select lagrangian.
+            0 -> Lm=T
+            1 -> Lm=-c²rho
+            2 -> Lm=P
+        - dilaton_active:
+            True -> Solves for equation of ER.
+            False -> Solves for equation of GR.
+        - log_active: Consol outputs.
+            True -> activates consol output
+    """
 
     def __init__(self, initDensity, initPsi, initPhi, radiusMax_in, radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, retro):
 #Init value
@@ -275,11 +293,11 @@ class TOV():
             Phi0_min -= 0.1
             if Phi0_min == 0:
                 Phi0_min = 1e-2
-    #             print(f'Had to put l.h.s. limit of $\Phi_0$ to {Phi0_min}')
+                 #print(f'Had to put l.h.s. limit of $\Phi_0$ to {Phi0_min}')
             tov_min = TOV(initDensity, initPsi, Phi0_min, radiusMax_in, radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, retro)
             tov_min.Compute()
             Phi_inf_min = tov_min.Phi[-1]
-    #         print(f'Had to lower down the l.h.s.limit of $\Phi_0$ to {Phi0_min:.1f}')
+             #print(f'Had to lower down the l.h.s.limit of $\Phi_0$ to {Phi0_min:.1f}')
         tov_max = TOV(initDensity, initPsi, Phi0_max, radiusMax_in, radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, retro)
         tov_max.Compute()
         Phi_inf_max = tov_max.Phi[-1]
@@ -288,7 +306,7 @@ class TOV():
             tov_max = TOV(initDensity, initPsi, Phi0_max, radiusMax_in, radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, retro)
             tov_max.Compute()
             Phi_inf_max = tov_max.Phi[-1]
-    #         print(f'Had to increase the r.h.s. limit of $\Phi_0$ to {Phi0_max:.1f}')
+             #print(f'Had to increase the r.h.s. limit of $\Phi_0$ to {Phi0_max:.1f}')
         #Search for Phi_0 that leads to Phi_inf = 1 to a given precision by dichotomy
         step_precision = 1
         Phi0_dicho = np.array([Phi0_min, (Phi0_min + Phi0_max) / 2, Phi0_max])
@@ -305,6 +323,8 @@ class TOV():
             step_precision = np.abs(Phi_inf_dicho[N] - Phi_inf_dicho[N-1])
             Phi = (Phi0_min + Phi0_max) / 2
         return Phi, (Phi0_min + Phi0_max) / 2, (Phi0_min - Phi0_max) / 2, (Phi_inf_dicho[N] + Phi_inf_dicho[N-1]) / 2
+
+############################################################################
 
     #Recording hbar data in a specific folder
     def hbar_into_txt(self):
@@ -354,8 +374,9 @@ class TOV():
             for element in self.hbar:
                 f.write(str(element) + '\n')
 
-############################################################################""
+############################################################################
 
+    #Ploting hbar versus the radius GR and ER.
     def Plot(self):
         #Recovering hbar data
         hbar = []
