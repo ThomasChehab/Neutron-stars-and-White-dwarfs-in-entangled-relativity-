@@ -18,14 +18,14 @@ massSun = 1.989*10**30
 
 #Equation of state
 def PEQS(Phi, rho, retro):
-    if retro == False: # Without or With retroaction
+    if retro == False: # With or without retroaction
         return k*rho**(5/3) 
     else:
         return k*rho**(5/3) * Phi**(-1)
 
 #Inverted equation of state
 def RhoEQS(Phi, P, retro):
-    if retro == False: # Without or With retroaction
+    if retro == False: # With or without retroaction
         return (P/k)**(3/5)
     else:
         return (P/k)**(3/5) * Phi**(3/5)
@@ -176,7 +176,6 @@ class TOV():
         self.mass = m #star mass
         self.stepStar = n #index where code stop at 0 pressure
 
-
         # Outside the star--------------------------------------------------------------------------
         while(n<self.limitCompute):
             if self.dilaton:
@@ -191,8 +190,8 @@ class TOV():
             metric00.append(metric00[n] + dr*metric00[n]*adota(r[n],0, m[n], Psi[n], Phi[n]))
             n = n+1
             r.append(self.initRadius+n*dr)
-
-        # Star property
+        Phiinf = Phi[-1]
+        # Star properties
         self.massStar = self.mass[self.stepStar]
         self.radiusStar = r[self.stepStar]
         self.pressureStar = self.pressure[self.stepStar]
@@ -203,11 +202,9 @@ class TOV():
         self.metric00 = metric00
         self.hbar = 1/np.sqrt(self.Phi) #New
         hbar_core = np.sqrt(self.Phi[0])
-        #print(' Star mass =', self.mass[self.stepStar]/massSun)
-        #print('Star radius =', r[self.stepStar])
-        #print('Star Phi =', self.Phi[self.stepStar])
-        #print('Phi inf =', self.Phi[-1])
-        #print('HBAR CORE = ', hbar_core) #New
+        #PhiStar = Phi[self.stepStar]
+        #print(PhiStar)
+        #print('hbar variation in % =', -2 * ((Phiinf - PhiStar)/Phiinf) * 100)
 
     def ComputeGR(self):
         dr = self.radiusStep
@@ -286,11 +283,6 @@ class TOV():
             M[i] = self.Phi[i]-self.PhiInit
         plt.plot([x/10**3 for x in self.radius[:]], M)
         
-        
-        
-        
-#########################################################################################        
-    
     def find_dilaton_center(self):
         
         initDensity = self.initDensity
@@ -346,10 +338,6 @@ class TOV():
             self.PhiInit = Phi
         return Phi, (Phi0_min + Phi0_max) / 2, (Phi0_min - Phi0_max) / 2, (Phi_inf_dicho[N] + Phi_inf_dicho[N-1]) / 2
             
-
-############################################################################################
-            
-            
     #Recording hbar data in a specific folder
     def hbar_into_txt(self):
         folder_path = './hbar_folder'
@@ -399,8 +387,6 @@ class TOV():
         with open(Name, 'w') as f:
             for element in self.hbar:
                 f.write(str(element) + '\n')
-
-############################################################################""
 
     def Plot(self):
         #Recovering hbar data

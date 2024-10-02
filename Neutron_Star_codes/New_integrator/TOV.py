@@ -13,20 +13,21 @@ import os
 import mplhep as hep
 hep.style.use("ATLAS")
 
+#constants
 c2 = cst.c**2
 kappa = 8*np.pi*cst.G/c2**2
 k = 1.475*10**(-3)*(cst.fermi**3/(cst.eV*10**6))**(2/3)*c2**(5/3)
 massSun = 1.989*10**30
 
 #Equation of state
-def PEQS(Phi, rho, retro):
+def PEQS(Phi, rho, retro): # With or without retroaction
     if retro == False:
         return k*rho**(5/3)
     else:
         return k*rho**(5/3) * Phi**(-1)
 
 #Inverted equation of state
-def RhoEQS(Phi, P, retro):
+def RhoEQS(Phi, P, retro): # With or without retroaction
     if retro == False:
         return (P/k)**(3/5)
     else:
@@ -87,6 +88,13 @@ def f2(r, P, m, Psi, Phi, option, retro):
     B = 4*np.pi*(-D00(r, P, m, Psi, Phi, option, retro)/(kappa*c2))*r**2
     return A+B
 
+#Equation for dPhi/dr
+def f3(r, P, m, Psi, Phi, option, dilaton_active):
+    if dilaton_active:
+        return Psi
+    else:
+        return 0
+
 #Equation for dPsi/dr
 def f4(r, P, m, Psi, Phi, option, dilaton_active, retro):
     ADOTA = adota(r, P, m, Psi, Phi)
@@ -98,13 +106,6 @@ def f4(r, P, m, Psi, Phi, option, dilaton_active, retro):
     B = b(r,m)*kappa*Phi**(1/2)*(T-Lm)/3
     if dilaton_active:
         return A+B
-    else:
-        return 0
-
-#Equation for dPhi/dr
-def f3(r, P, m, Psi, Phi, option, dilaton_active):
-    if dilaton_active:
-        return Psi
     else:
         return 0
 
@@ -128,14 +129,13 @@ class TOV():
         self.initPsi = initPsi
         self.initPhi = initPhi
         self.initMass = 0
+        self.initPressure = PEQS(initPhi, initDensity, retro)
+#Parameters
         self.option = EQS_type
         self.dilaton_active = dilaton_active
         self.log_active = log_active
         self.retro = retro
-        self.initPressure = PEQS(initPhi, initDensity, retro)
-
 #Computation variable
-
         self.radiusMax_in = radiusMax_in
         self.radiusMax_out = radiusMax_out
         self.Npoint = Npoint
@@ -175,7 +175,7 @@ class TOV():
         y0 = [self.initPressure,self.initMass,self.initPhi,self.initPsi]
         if self.log_active:
             print('y0 = ', y0,'\n')
-        r = np.linspace(0.01,self.radiusMax_in,self.Npoint) # fixe a 50000 points
+        r = np.linspace(0.01,self.radiusMax_in,self.Npoint)
         if self.log_active:
             print('radius min ',0.01)
             print('radius max ',self.radiusMax_in)
@@ -222,9 +222,9 @@ class TOV():
             self.Psi = np.concatenate([self.Psi,  sol.y[2]])
             self.radius = np.concatenate([self.radius, r])
             self.phi_inf = self.Phi[-1]
+            self.hbar = 1/np.sqrt(self.Phi)
             if self.log_active:
                 print('Phi at infinity ', self.phi_inf)
-            self.hbar = 1/np.sqrt(self.Phi)
             # Compute metrics
             self.g_rr = b(self.radius, self.mass)
             a_dot_a = adota(self.radius, self.pressure, self.mass, self.Psi, self.Phi)
@@ -237,7 +237,6 @@ class TOV():
             self.r_ext = np.array(self.radius[n_star:-1])
             self.r_ext[0] = self.radiusStar
             star_radius_normal = self.radiusStar
-
             if self.log_active:
                 print('Star Mass ADM: ', self.massADM, ' kg')
                 print('===========================================================')
@@ -246,7 +245,6 @@ class TOV():
         else:
             print('Pressure=0 not reached')
 
-
     def ComputeTOV(self):
         """
         ComputeTOV is the function to consider in order to compute "physical" quantities. It takes into account phi_inf->1 r->ininity
@@ -254,9 +252,7 @@ class TOV():
         self.Compute()
         print('hbar variation in % =', -2 * ((self.phi_inf - self.phiStar)/self.phi_inf) * 100)
 
-
     def find_dilaton_center(self):
-
         initDensity = self.initDensity
         option = self.option
         precision = 1e-8
@@ -270,11 +266,9 @@ class TOV():
         initPsi = 0
         radiusInit = 0.000001
         dilaton = True
-
         #Find limits of potential Phi_0
         Phi0_min, Phi0_max = 0.5, 1.5 # initial limits
         tov_min = TOV(initDensity, initPsi, Phi0_min, radiusMax_in, radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, retro)
-
         tov_min.Compute()
         Phi_inf_min = tov_min.Phi[-1]
         while Phi_inf_min > 1:
@@ -286,7 +280,6 @@ class TOV():
             tov_min.Compute()
             Phi_inf_min = tov_min.Phi[-1]
     #         print(f'Had to lower down the l.h.s.limit of $\Phi_0$ to {Phi0_min:.1f}')
-
         tov_max = TOV(initDensity, initPsi, Phi0_max, radiusMax_in, radiusMax_out, Npoint, EQS_type, dilaton_active, log_active, retro)
         tov_max.Compute()
         Phi_inf_max = tov_max.Phi[-1]
@@ -296,7 +289,6 @@ class TOV():
             tov_max.Compute()
             Phi_inf_max = tov_max.Phi[-1]
     #         print(f'Had to increase the r.h.s. limit of $\Phi_0$ to {Phi0_max:.1f}')
-
         #Search for Phi_0 that leads to Phi_inf = 1 to a given precision by dichotomy
         step_precision = 1
         Phi0_dicho = np.array([Phi0_min, (Phi0_min + Phi0_max) / 2, Phi0_max])
@@ -313,7 +305,6 @@ class TOV():
             step_precision = np.abs(Phi_inf_dicho[N] - Phi_inf_dicho[N-1])
             Phi = (Phi0_min + Phi0_max) / 2
         return Phi, (Phi0_min + Phi0_max) / 2, (Phi0_min - Phi0_max) / 2, (Phi_inf_dicho[N] + Phi_inf_dicho[N-1]) / 2
-
 
     #Recording hbar data in a specific folder
     def hbar_into_txt(self):
@@ -339,7 +330,6 @@ class TOV():
             for element in self.radius:
                 f.write(str(element) + '\n')
 
-
     #Recording radius_retro data in a specific folder
     def radius_retro_into_txt(self):
         folder_path = './radius_folder'
@@ -351,7 +341,6 @@ class TOV():
         with open(Name, 'w') as f:
             for element in self.radius:
                 f.write(str(element) + '\n')
-
 
     #Recording hbar_retro data in a specific folder
     def hbar_retro_into_txt(self):
@@ -376,7 +365,6 @@ class TOV():
             hbar.append(x)
         for i in range(len(hbar)):
             hbar[i] = float(hbar[i])
-
 
         #Recovering radius data
         radius = []
