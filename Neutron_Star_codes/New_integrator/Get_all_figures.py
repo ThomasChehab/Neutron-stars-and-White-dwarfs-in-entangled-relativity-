@@ -4,11 +4,8 @@ import matplotlib.pyplot as plt
 import scipy.constants as cst
 import numpy as np
 from tqdm import tqdm
-from lal import  C_SI, HBAR_SI, H_SI, G_SI, MSUN_SI
-M_sun = MSUN_SI
 import pickle
 import os
-
 
 c2 = cst.c**2
 PhiInit = 1

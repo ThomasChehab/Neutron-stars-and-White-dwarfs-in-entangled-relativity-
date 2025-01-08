@@ -7,8 +7,8 @@ from matplotlib.ticker import FormatStrFormatter
 import numpy as np
 from numpy import linalg as npla
 from scipy.integrate import solve_ivp
-from scipy.integrate import cumtrapz as integcum
-from scipy.integrate import trapz as integ
+from scipy.integrate import cumulative_trapezoid as integcum
+from scipy.integrate import trapezoid as integ
 import os
 import mplhep as hep
 hep.style.use("ATLAS")
