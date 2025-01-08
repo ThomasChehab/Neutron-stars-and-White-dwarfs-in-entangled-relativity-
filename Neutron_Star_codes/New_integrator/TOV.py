@@ -197,7 +197,7 @@ class TOV():
         if self.log_active:
             print('radius min ',0.01)
             print('radius max ',self.radiusMax_in)
-        sol = solve_ivp(dy_dr, [0.01, self.radiusMax_in], y0, method='RK45',t_eval=r ,args=(self.option,self.dilaton_active, self.retro))
+        sol = solve_ivp(dy_dr, [0.01, self.radiusMax_in], y0, method='RK45',t_eval=r ,dense_output = True, args=(self.option,self.dilaton_active, self.retro))
         # condition for Pressure = 0
         '''
         self.g_rr = b(sol.t, sol.y[1])
@@ -268,7 +268,7 @@ class TOV():
         ComputeTOV is the function to consider in order to compute "physical" quantities. It takes into account phi_inf->1 r->ininity
         """
         self.Compute()
-        print('hbar variation in % =', -2 * ((self.phi_inf - self.phiStar)/self.phi_inf) * 100)
+        print('hbar variation in % =', -1/2 * ((self.phi_inf - self.phiStar)/self.phi_inf) * 100)
 
     def find_dilaton_center(self):
         initDensity = self.initDensity
@@ -428,7 +428,7 @@ class TOV():
         plt.xlim(-2, 60)
         plt.ylim(0.999,1.045)
         plt.axvline(star_radius, color='r', linestyle='--', label='Star radius')
-        plt.fill_between(radius_retro, hbar_normal, hbar_retro, where=(hbar_retro > hbar_normal), color='lightgray', alpha=0.5)
+        plt.fill_between(radius_normal[:len(radius_retro)], hbar_normal[:len(hbar_retro)], hbar_retro, where=(hbar_retro > hbar_normal[:len(hbar_retro)]), color='lightgray', alpha=0.5)
         plt.xlabel('Radius (km) $\\times$ 1e3', fontsize=19)
         plt.ylabel(r'$\hbar$ variation', fontsize=22)
         plt.legend()
