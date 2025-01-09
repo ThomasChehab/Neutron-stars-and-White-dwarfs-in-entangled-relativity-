@@ -19,9 +19,12 @@ highest_density = 1e13
 densities = np.linspace(np.log(lowest_density), np.log(highest_density), 249)
 densities = np.exp(densities)
 count = 0
+verify()
 for density in (densities):
-    tov = TOV( density , PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, True, log_active)
+    tov = TOV( density ,PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, True, log_active)
     tov.ComputeTOV()    
+    tov.recover_star_radius()
+    tov.recover_hbar_star()
     tov.hbar_into_txt(count)
     tov.radius_into_txt(count)
     tov.density_into_txt()

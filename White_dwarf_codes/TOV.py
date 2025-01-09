@@ -8,10 +8,16 @@ from scipy.integrate import solve_ivp
 from scipy.integrate import cumulative_trapezoid as integcum
 from scipy.integrate import trapezoid as integ
 import os
+import shutil
 import matplotlib.colors as mcolors
 from matplotlib.ticker import FormatStrFormatter
 import mplhep as hep
 hep.style.use("ATLAS")
+
+from scipy.optimize import curve_fit #prout
+from numpy import polyval, polyfit
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
 
 #Constants
 c2 = cst.c**2
@@ -128,7 +134,24 @@ def dy_dr_out(r, y, P, x, option, dilaton_active):
     return dy_dt
 
 class TOV():
-
+    """
+    * Initialization
+        - initDensity : initial value of density [MeV/fm3] (at the center of the star)
+        - initPsi : initial value of psi (= 1).
+        - initPhi : initial value for the derivative of psi (= 0).
+        - radiusMax_in : For star interior, the solver integrates until it reach radiusMax_in.
+        - radiusMax_out : For star exterior, the solver integrates until it reach radiusMax_out.
+        - Npoint : Number at which the solution is evaluated (t_span Parameter in solve_ivp).
+        - option : Select lagrangian.
+            0 -> Lm=T
+            1 -> Lm=-c²rho
+            2 -> Lm=P
+        - dilaton_active:
+            True -> Solves for equation of ER.
+            False -> Solves for equation of GR.
+        - log_active: Consol outputs.
+            True -> activates consol output
+    """
     def __init__(self, initDensity, initPsi, initPhi, radiusMax_in, radiusMax_out, Npoint, EQS_type, dilaton_active, log_active):
         
 #Init value
@@ -141,7 +164,6 @@ class TOV():
         self.option = EQS_type
         self.dilaton_active = dilaton_active
         self.log_active = log_active
-
 #Computation variable
         self.radiusMax_in = radiusMax_in
         self.radiusMax_out = radiusMax_out
@@ -270,7 +292,7 @@ class TOV():
             
             if self.log_active:
                 print('Star Mass ADM: ', self.massADM, ' kg')
-                print('hbar variation in % =', self.delta_hbar * 100)
+                #print('hbar variation in % =', self.delta_hbar * 100)
                 print('===========================================================')
                 print('END')
                 print('===========================================================\n')
@@ -286,8 +308,35 @@ class TOV():
         if self.dilaton_active:
             self.initPhi = self.initPhi/self.phi_inf
             self.Compute()
-            
+        #print('hbar variation in % =', -2 * ((self.phi_inf - self.phiStar)/self.phi_inf) * 100)
+
     #Next functions are used to store in folder white dwarfs data
+
+    def recover_star_radius(self):
+        folder_path = './star_radius_folder'
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+        star_radius = []
+        star_radius.append(self.radiusStar/1e8)
+        Name = "./star_radius_folder/star_radius.txt"
+        if not os.path.exists(Name):
+            open(Name, 'a').close()
+        with open(Name, 'a') as f:
+            for element in star_radius:
+                f.write(str(element) + '\n')
+
+    def recover_hbar_star(self):
+        folder_path = './star_hbar_folder'
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+        star_hbar = []
+        star_hbar.append(self.hbarStar - self.hbar_inf)
+        Name = "./star_hbar_folder/star_hbar.txt"
+        if not os.path.exists(Name):
+            open(Name, 'a').close()
+        with open(Name, 'a') as f:
+            for element in star_hbar:
+                f.write(str(element) + '\n')
             
     def density_into_txt(self): # Storing density data
         folder_path = './init_density_folder'
@@ -326,7 +375,6 @@ class TOV():
         
     #Next function goal is to recover data of white dwarf and obtain the final plot. 
     def Plot_all_hbar(self):
-        
         #Recovering density data
         density = []
         file_path_density = ('./init_density_folder/init_density.txt')
@@ -336,7 +384,7 @@ class TOV():
         for i in range(len(density)):
             density[i] = float(density[i])
         density = np.array(density)/(1e12)
-        
+
         #Recovering hbar data
         hbar = []
         for i in range(len(density)):
@@ -349,7 +397,7 @@ class TOV():
         for i in range(len(hbar)):
             for j in range(len(hbar[i])):
                 hbar[i][j] = float(hbar[i][j])
-                 
+
         #Recovering radius data
         radius = []
         for i in range(len(density)):
@@ -363,16 +411,35 @@ class TOV():
         for i in range(len(radius)):
             for j in range(len(radius[i])):
                 radius[i][j] = float(radius[i][j])
-                radius[i][j] /= 1e8 
-                
+                radius[i][j] /= 1e8
+
+######################################
+        #recovering star radius data
+        radius_at_star = []
+        file_path_radius_star = ('./star_radius_folder/star_radius.txt')
+        f = open(file_path_radius_star, 'r')
+        for x in f:
+            radius_at_star.append(x)
+        for i in range(len(radius_at_star)):
+            radius_at_star[i] = float(radius_at_star[i])
+
+        hbar_at_star = []
+        file_path_hbar_star = ('./star_hbar_folder/star_hbar.txt')
+        f = open(file_path_hbar_star, 'r')
+        for x in f:
+            hbar_at_star.append(x)
+        for i in range(len(hbar_at_star)):
+            hbar_at_star[i] = float(hbar_at_star[i])
+
         #Plot
         fig, ax = plt.subplots(figsize=(11, 6))
         cmap = plt.cm.gray_r
         adjusted_cmap = mcolors.LinearSegmentedColormap.from_list(
             'adjusted_gray_r', cmap(np.linspace(0.2, 0.8, 300)))
         colors = adjusted_cmap(density)
+        plt.plot(radius_at_star, hbar_at_star,color='red', linestyle='--', label='WD surface', zorder=2)
         for i in range(len(hbar)):
-            ax.plot(radius[i], hbar[i], color=colors[i])
+            ax.plot(radius[i], hbar[i], color=colors[i], zorder = 1)
         norm = mcolors.Normalize(vmin=np.min(density), vmax=np.max(density))
         sm = plt.cm.ScalarMappable(cmap=adjusted_cmap, norm=norm)
         sm.set_array([]) 
@@ -380,12 +447,14 @@ class TOV():
         cbar.set_label('Core density (kg/m$^3$) $\\times$ 1e12 ', fontsize=20)
         cbar.ax.yaxis.set_major_formatter(FormatStrFormatter('%.2g'))
         ax.set_xlabel('Radius (km) $\\times$ 1e5', fontsize=19)
-        ax.set_ylabel(r'$\delta \hbar = \hbar - \hbar|_{r \rightarrow \infty}$', fontsize=19) 
+        ax.set_ylabel(r'$\delta \hbar/\hbar_{\infty} $', fontsize=19)
         plt.ylim([5e-12, 4e-5])
         ax.set_yscale('log')
         plt.rc('xtick', labelsize=18)
         plt.rc('ytick', labelsize=18)
+        plt.legend(loc = 'upper right')
         plt.savefig('./deltahbar_vs_radius_WD')
+        #plt.show()
             
         
     def Plot(self):
@@ -429,3 +498,20 @@ class TOV():
         plt.axvline(x=self.radiusStar/10**3, color='r')
 
         plt.show()
+
+def verify():
+    folder_path = './star_radius_folder'
+    if os.path.exists(folder_path):
+        shutil.rmtree(folder_path)
+    folder_path = './star_hbar_folder'
+    if os.path.exists(folder_path):
+        shutil.rmtree(folder_path)
+    folder_path = './init_density_folder'
+    if os.path.exists(folder_path):
+        shutil.rmtree(folder_path)
+    folder_path = './hbar_folder'
+    if os.path.exists(folder_path):
+        shutil.rmtree(folder_path)
+    folder_path = './radius_folder'
+    if os.path.exists(folder_path):
+        shutil.rmtree(folder_path)
