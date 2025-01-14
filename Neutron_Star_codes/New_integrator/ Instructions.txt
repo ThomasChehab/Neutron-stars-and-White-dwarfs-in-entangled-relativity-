@@ -1,8 +1,8 @@
 This code aimed to verify that the retroaction of the variation of hbar onto the equation of state of the star has almost no impact.
 
-To launch the codes, you first need to install the packages present in the file ...
+To launch the codes, you first need to install the packages present in the file requirements.txt.
 
-After that, you have to open a terminal in the folder that contains the codes and, in an appropriate environment, you write :
+After in a terminal you write :
 
 " python3 Get_all_figures.py " 
 
