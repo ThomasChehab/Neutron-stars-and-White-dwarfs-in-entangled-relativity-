@@ -289,10 +289,11 @@ class TOV():
             self.hbar_inf = 1/np.sqrt(self.phi_inf)
             self.hbarStar = 1/np.sqrt(self.phiStar)
             self.delta_hbar = (self.hbar - self.hbar_inf)/self.hbar_inf
-            
+
             if self.log_active:
                 print('Star Mass ADM: ', self.massADM, ' kg')
                 #print('hbar variation in % =', self.delta_hbar * 100)
+                #print(' hbar variation in % =', (-1/2 * (self.phiStar - self.phi_inf) / self.phi_inf) * 100)
                 print('===========================================================')
                 print('END')
                 print('===========================================================\n')

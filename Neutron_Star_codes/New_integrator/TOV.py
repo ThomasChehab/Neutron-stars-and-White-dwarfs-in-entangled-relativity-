@@ -428,7 +428,11 @@ class TOV():
         plt.xlim(-2, 60)
         plt.ylim(0.999,1.045)
         plt.axvline(star_radius, color='r', linestyle='--', label='Star radius')
-        plt.fill_between(radius_normal[:len(radius_retro)], hbar_normal[:len(hbar_retro)], hbar_retro, where=(hbar_retro > hbar_normal[:len(hbar_retro)]), color='lightgray', alpha=0.5)
+        if len(radius_retro) < len(radius_normal):
+            plt.fill_between(radius_normal[:len(radius_retro)], hbar_normal[:len(hbar_retro)], hbar_retro, where=(hbar_retro > hbar_normal[:len(hbar_retro)]), color='lightgray', alpha=0.5)
+        else:
+            plt.fill_between(radius_retro[:len(radius_normal)], hbar_retro[:len(hbar_normal)], hbar_normal, where=(hbar_retro[:len(hbar_normal)] > hbar_normal), color='lightgray', alpha=0.5)
+
         plt.xlabel('Radius (km) $\\times$ 1e3', fontsize=19)
         plt.ylabel(r'$\hbar$ variation', fontsize=22)
         plt.legend()
