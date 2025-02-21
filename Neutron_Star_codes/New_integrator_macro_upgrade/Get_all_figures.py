@@ -15,11 +15,7 @@ from tqdm import tqdm
 
 
 
-def verify():
-    if os.path.exists('./NS_data.dat'):
-        os.remove('./NS_data.dat')
-    if os.path.exists('./NS_hbar_dependency_data.dat'):
-        os.remove('./NS_hbar_dependency_data.dat')
+
 verify()
 
 def run_GR(rho_cen):

@@ -567,5 +567,9 @@ def save_var_latex_dependence(key, value):
         for key in dict_var.keys():
             f.write(f"{key},{dict_var[key]}\n")
 
-
+def verify():
+    if os.path.exists('./NS_data.dat'):
+        os.remove('./NS_data.dat')
+    if os.path.exists('./NS_hbar_dependency_data.dat'):
+        os.remove('./NS_hbar_dependency_data.dat')
 
