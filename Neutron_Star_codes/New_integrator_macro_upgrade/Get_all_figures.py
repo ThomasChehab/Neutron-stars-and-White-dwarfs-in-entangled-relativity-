@@ -13,6 +13,15 @@ from mpl_toolkits.axes_grid1.inset_locator import mark_inset
 from matplotlib.transforms import Bbox
 from tqdm import tqdm
 
+
+
+def verify():
+    if os.path.exists('./NS_data.dat'):
+        os.remove('./NS_data.dat')
+    if os.path.exists('./NS_hbar_dependency_data.dat'):
+        os.remove('./NS_hbar_dependency_data.dat')
+verify()
+
 def run_GR(rho_cen):
     dependence = 2 #hbar^2
     PhiInit = 1
