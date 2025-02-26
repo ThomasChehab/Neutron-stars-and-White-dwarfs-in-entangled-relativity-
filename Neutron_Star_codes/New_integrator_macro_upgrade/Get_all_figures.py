@@ -12,7 +12,10 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from mpl_toolkits.axes_grid1.inset_locator import mark_inset
 from matplotlib.transforms import Bbox
 from tqdm import tqdm
-
+import matplotlib.colors as mcolors
+from matplotlib.ticker import FormatStrFormatter
+import mplhep as hep
+hep.style.use("ATLAS")
 
 
 
@@ -581,17 +584,19 @@ print('ER_retro = ' , Max_mass_ADM_ER_retro,'kg', 'et', Max_density_ADM_ER_retro
 
 # plt.scatter(all_a[0],all_a[1], c = all_a[2], marker = 's', cmap = 'Blues_r')
 plt.figure()
-plt.scatter(R_tresh,M_tresh, c = delta_h_tresh * 1e2, marker = 's', cmap = 'gray')
+plt.scatter(R_tresh,M_tresh, c = delta_h_tresh * 1e2, marker = 's', cmap = 'gray_r')
 plt.plot(R_tresh_GR ,M_tresh_GR, label='GR', color='tab:gray', linestyle='dashed')
 plt.legend()
 plt.xlabel('Radius (km)')
-plt.ylabel('Mass (M\u2609)')
+plt.ylabel('Mass (M$\odot$)')
+# plt.ylabel('Mass (M\u2609)')
 plt.subplots_adjust(bottom=0.1, right=0.8, top=0.9)
-cax = plt.axes([0.8, 0.1, 0.055, 0.8])
+cax = plt.axes([0.85, 0.1, 0.055, 0.8])
 plt.colorbar(cax=cax).set_label('$\delta \hbar / \hbar (\%)$')
 plt.savefig(f'./save_hbar_NS/scatter_treshold_{n}.png', dpi= 200, bbox_inches="tight")
 # plt.show()
 plt.close()
+
 
 
 
@@ -693,13 +698,14 @@ else:
 
 ##### Ici sera le plot mass max vs radius et delta hbar center
 plt.figure()
-plt.scatter(R_tresh,M_tresh, c = delta_h_central_tresh * 1e2, marker = 's', cmap = 'gray')
+plt.scatter(R_tresh,M_tresh, c = delta_h_central_tresh * 1e2, marker = 's', cmap = 'gray_r')
 plt.plot(R_tresh_GR ,M_tresh_GR, label='GR', color='tab:gray', linestyle='dashed')
 plt.legend()
 plt.xlabel('Radius (km)')
-plt.ylabel('Mass (M\u2609)')
+# plt.ylabel('Mass (M\u2609)')
+plt.ylabel('Mass (M$\odot$)')
 plt.subplots_adjust(bottom=0.1, right=0.8, top=0.9)
-cax = plt.axes([0.8, 0.1, 0.055, 0.8])
+cax = plt.axes([0.85, 0.1, 0.055, 0.8])
 plt.colorbar(cax=cax).set_label('$\delta \hbar / \hbar (\%)$')
 plt.savefig(f'./save_hbar_NS/scatter_1000.png', dpi= 200, bbox_inches="tight")
 # plt.show()
