@@ -128,33 +128,33 @@ retro = False
 
 
 
-for den in tqdm(den_space):
-
-
-    size_e3_GR, mass_GR, phi_s_GR, phi_0_GR, vsurc_GR = run_GR(den) # Run in general relativity
-
-    size_a_GR = np.append(size_a_GR,size_e3_GR/1e3)
-    mass_a_GR = np.append(mass_a_GR, mass_GR)
-    delta_hbar_a_GR = np.append(delta_hbar_a_GR, - (phi_s_GR-1) / 2.)
-    vsurc_a_GR = np.append(vsurc_a_GR,vsurc_GR)
-
-
-    size_e3, mass, phi_s, phi_0, vsurc = run_ER(den) # Run in entangled relativity
-
-    size_a = np.append(size_a,size_e3/1e3)
-    mass_a = np.append(mass_a, mass)
-    delta_hbar_a = np.append(delta_hbar_a, - (phi_s-1) / 2.)
-    delta_hbar0_a = np.append(delta_hbar0_a, - (phi_0-1) / 2.)
-    vsurc_a = np.append(vsurc_a,vsurc)
-
-
-    size_e3_ER_retro, mass_ER_retro, phi_s_ER_retro, phi_0_ER_retro, vsurc_ER_retro = run_ER_retro(den) # Run in entangled relativity with retroation
-
-    size_a_ER_retro = np.append(size_a_ER_retro,size_e3_ER_retro/1e3)
-    mass_a_ER_retro = np.append(mass_a_ER_retro, mass_ER_retro)
-    delta_hbar_a_ER_retro = np.append(delta_hbar_a_ER_retro, - (phi_s_ER_retro-1) / 2.)
-    delta_hbar0_a_ER_retro = np.append(delta_hbar0_a_ER_retro, - (phi_0_ER_retro-1) / 2.)
-    vsurc_a_ER_retro = np.append(vsurc_a_ER_retro,vsurc_ER_retro)
+# for den in tqdm(den_space):
+#
+#
+#     size_e3_GR, mass_GR, phi_s_GR, phi_0_GR, vsurc_GR = run_GR(den) # Run in general relativity
+#
+#     size_a_GR = np.append(size_a_GR,size_e3_GR/1e3)
+#     mass_a_GR = np.append(mass_a_GR, mass_GR)
+#     delta_hbar_a_GR = np.append(delta_hbar_a_GR, - (phi_s_GR-1) / 2.)
+#     vsurc_a_GR = np.append(vsurc_a_GR,vsurc_GR)
+#
+#
+#     size_e3, mass, phi_s, phi_0, vsurc = run_ER(den) # Run in entangled relativity
+#
+#     size_a = np.append(size_a,size_e3/1e3)
+#     mass_a = np.append(mass_a, mass)
+#     delta_hbar_a = np.append(delta_hbar_a, - (phi_s-1) / 2.)
+#     delta_hbar0_a = np.append(delta_hbar0_a, - (phi_0-1) / 2.)
+#     vsurc_a = np.append(vsurc_a,vsurc)
+#
+#
+#     size_e3_ER_retro, mass_ER_retro, phi_s_ER_retro, phi_0_ER_retro, vsurc_ER_retro = run_ER_retro(den) # Run in entangled relativity with retroation
+#
+#     size_a_ER_retro = np.append(size_a_ER_retro,size_e3_ER_retro/1e3)
+#     mass_a_ER_retro = np.append(mass_a_ER_retro, mass_ER_retro)
+#     delta_hbar_a_ER_retro = np.append(delta_hbar_a_ER_retro, - (phi_s_ER_retro-1) / 2.)
+#     delta_hbar0_a_ER_retro = np.append(delta_hbar0_a_ER_retro, - (phi_0_ER_retro-1) / 2.)
+#     vsurc_a_ER_retro = np.append(vsurc_a_ER_retro,vsurc_ER_retro)
 
 
 
@@ -166,26 +166,26 @@ all_a_ER_retro = [size_a_ER_retro,mass_a_ER_retro,delta_hbar_a_ER_retro,delta_hb
 
 if not os.path.exists('save_hbar_NS'):
     os.makedirs('save_hbar_NS')
+#
+# np.save(f'./save_hbar_NS/matrice_{n}.npy',all_a)
+# np.save(f'./save_hbar_NS/matrice_{n}_GR.npy',all_a_GR)
+# np.save(f'./save_hbar_NS/matrice_{n}_ER_retro.npy',all_a_ER_retro)
 
-np.save(f'./save_hbar_NS/matrice_{n}.npy',all_a)
-np.save(f'./save_hbar_NS/matrice_{n}_GR.npy',all_a_GR)
-np.save(f'./save_hbar_NS/matrice_{n}_ER_retro.npy',all_a_ER_retro)
-
-# all_a = np.load(f'save_hbar_NS/matrice_{n}.npy')
+all_a = np.load(f'save_hbar_NS/matrice_{n}.npy')
 size_a = all_a[0]
 mass_a = all_a[1]
 delta_hbar_a = all_a[2]
 delta_hbar0_a = all_a[3]
 vsurc_a = all_a[4]
 
-# all_a_GR = np.load(f'save_hbar_NS/matrice_{n}_GR.npy')
+all_a_GR = np.load(f'save_hbar_NS/matrice_{n}_GR.npy')
 
 size_a_GR = all_a_GR[0]
 mass_a_GR = all_a_GR[1]
 delta_hbar_a_GR = all_a_GR[2]
 vsurc_a_GR = all_a_GR[3]
 
-# all_a_ER_retro = np.load(f'save_hbar_NS/matrice_{n}_ER_retro.npy')
+all_a_ER_retro = np.load(f'save_hbar_NS/matrice_{n}_ER_retro.npy')
 
 size_a_ER_retro = all_a_ER_retro[0]
 mass_a_ER_retro = all_a_ER_retro[1]
@@ -699,23 +699,32 @@ def hbar_effect_retro(initDensity):
     return hbar_retro, radius_retro
 
 
-# all_normal = np.load(f'./save_hbar_NS/matrice_normal.npy')
+all_normal = np.load(f'./save_hbar_NS/matrice_normal.npy')
+
+all_retro = np.load(f'./save_hbar_NS/matrice_retro.npy')
+
+radius_Star = np.load(f'./save_hbar_NS/matrice_radius_star.npy')
 #
-# all_retro = np.load(f'./save_hbar_NS/matrice_retro.npy')
+# hbar_values, radius_values, radius_star_value = hbar_effect(1000)
+# hbar_values_retro, radius_values_retro = hbar_effect_retro(1000)
+
+hbar_values_retro = all_retro[0]
+radius_values_retro = all_retro[1]/1e3
+
+hbar_values = all_normal[0]
+radius_values = all_normal[1]/1e3
+
+# radius_star_value =
 #
-# radius_Star = np.load(f'./save_hbar_NS/matrice_radius_star.npy')
-
-hbar_values, radius_values, radius_star_value = hbar_effect(1000)
-hbar_values_retro, radius_values_retro = hbar_effect_retro(1000)
-
-all_retro = [hbar_values_retro, radius_values_retro]
-all_normal = [hbar_values, radius_values]
-radius_Star = [radius_star_value]
+#
+# all_retro = [hbar_values_retro, radius_values_retro]
+# all_normal = [hbar_values, radius_values]
+# radius_Star = [radius_star_value]
 
 
-np.save(f'./save_hbar_NS/matrice_normal.npy',all_normal)
-np.save(f'./save_hbar_NS/matrice_radius_star.npy',radius_Star)
-np.save(f'./save_hbar_NS/matrice_retro.npy',all_retro)
+# np.save(f'./save_hbar_NS/matrice_normal.npy',all_normal)
+# np.save(f'./save_hbar_NS/matrice_radius_star.npy',radius_Star)
+# np.save(f'./save_hbar_NS/matrice_retro.npy',all_retro)
 
 
 hbar_normal = all_normal[0]
@@ -783,85 +792,100 @@ def hbar_dependence_effect(initDensity):
     hbar_star = tov.hbar_star
     return hbar, radius, hbar_star
 
-
-Dependence = []
-for i in range(-3 ,4):
-    Dependence.append(i)
-
-
-
-for dependence in tqdm(Dependence):
-    if dependence == -3:
-        hbar_value_m3, radius_value_m3, hbar_star_value_m3 = hbar_dependence_effect(1000)
-    elif dependence == -2:
-        hbar_value_m2, radius_value_m2, hbar_star_value_m2 = hbar_dependence_effect(1000)
-    elif dependence == -1:
-        hbar_value_m1, radius_value_m1, hbar_star_value_m1 = hbar_dependence_effect(1000)
-    elif dependence == 0:
-        hbar_value, radius_value, hbar_star_value = hbar_dependence_effect(1000)
-    elif dependence == 1:
-        hbar_value_1, radius_value_1, hbar_star_value_1 = hbar_dependence_effect(1000)
-    elif dependence == 2:
-        hbar_value_2, radius_value_2, hbar_star_value_2 = hbar_dependence_effect(1000)
-    elif dependence == 3:
-        hbar_value_3, radius_value_3, hbar_star_value_3 = hbar_dependence_effect(1000)
+#
+# Dependence = []
+# for i in range(-3 ,4):
+#     Dependence.append(i)
+#
 
 
-# all_m3 = np.load(f'./save_hbar_NS/matrice_m3.npy')
-# all_m2 = np.load(f'./save_hbar_NS/matrice_m2.npy')
-# all_m1 = np.load(f'./save_hbar_NS/matrice_m1.npy')
-# all_0 = np.load(f'./save_hbar_NS/matrice_0.npy')
-# all_1 = np.load(f'./save_hbar_NS/matrice_1.npy')
-# all_2 = np.load(f'./save_hbar_NS/matrice_2.npy')
-# all_3 = np.load(f'./save_hbar_NS/matrice_3.npy')
+# for dependence in tqdm(Dependence):
+#     if dependence == -3:
+#         hbar_value_m3, radius_value_m3, hbar_star_value_m3 = hbar_dependence_effect(1000)
+#     elif dependence == -2:
+#         hbar_value_m2, radius_value_m2, hbar_star_value_m2 = hbar_dependence_effect(1000)
+#     elif dependence == -1:
+#         hbar_value_m1, radius_value_m1, hbar_star_value_m1 = hbar_dependence_effect(1000)
+#     elif dependence == 0:
+#         hbar_value, radius_value, hbar_star_value = hbar_dependence_effect(1000)
+#     elif dependence == 1:
+#         hbar_value_1, radius_value_1, hbar_star_value_1 = hbar_dependence_effect(1000)
+#     elif dependence == 2:
+#         hbar_value_2, radius_value_2, hbar_star_value_2 = hbar_dependence_effect(1000)
+#     elif dependence == 3:
+#         hbar_value_3, radius_value_3, hbar_star_value_3 = hbar_dependence_effect(1000)
+
+
+all_m3 = np.load(f'./save_hbar_NS/matrice_m3.npy')
+all_m2 = np.load(f'./save_hbar_NS/matrice_m2.npy')
+all_m1 = np.load(f'./save_hbar_NS/matrice_m1.npy')
+all_0 = np.load(f'./save_hbar_NS/matrice_0.npy')
+all_1 = np.load(f'./save_hbar_NS/matrice_1.npy')
+all_2 = np.load(f'./save_hbar_NS/matrice_2.npy')
+all_3 = np.load(f'./save_hbar_NS/matrice_3.npy')
+
+
+all_star_m3 = np.load(f'./save_hbar_NS/matrice_star_m3.npy')
+all_star_m2 = np.load(f'./save_hbar_NS/matrice_star_m2.npy')
+all_star_m1 = np.load(f'./save_hbar_NS/matrice_star_m1.npy')
+all_star_0 = np.load(f'./save_hbar_NS/matrice_star_0.npy')
+all_star_1 = np.load(f'./save_hbar_NS/matrice_star_1.npy')
+all_star_2 = np.load(f'./save_hbar_NS/matrice_star_2.npy')
+all_star_3 = np.load(f'./save_hbar_NS/matrice_star_m3.npy')
+
+hbar_value_m3 = all_m3[0]
+hbar_value_m2= all_m2[0]
+hbar_value_m1= all_m1[0]
+hbar_value_0= all_0[0]
+hbar_value_1= all_1[0]
+hbar_value_2= all_2[0]
+hbar_value_3= all_3[0]
+#
+# all_m3 = [hbar_value_m3]
+# all_m2 = [hbar_value_m2]
+# all_m1 = [hbar_value_m1]
+# all_0 = [hbar_value]
+# all_1 = [hbar_value_1]
+# all_2 = [hbar_value_2]
+# all_3 = [hbar_value_3]
+
+
+hbar_star_value_m3 = all_star_m3[0]
+hbar_star_value_m2= all_star_m2[0]
+hbar_star_value_m1= all_star_m1[0]
+hbar_star_value_0= all_star_0[0]
+hbar_star_value_1= all_star_1[0]
+hbar_star_value_2= all_star_2[0]
+hbar_star_value_3= all_star_3[0]
 #
 #
-# all_star_m3 = np.load(f'./save_hbar_NS/matrice_star_m3.npy')
-# all_star_m2 = np.load(f'./save_hbar_NS/matrice_star_m2.npy')
-# all_star_m1 = np.load(f'./save_hbar_NS/matrice_star_m1.npy')
-# all_star_0 = np.load(f'./save_hbar_NS/matrice_star_0.npy')
-# all_star_1 = np.load(f'./save_hbar_NS/matrice_star_1.npy')
-# all_star_2 = np.load(f'./save_hbar_NS/matrice_star_2.npy')
-# all_star_3 = np.load(f'./save_hbar_NS/matrice_star_m3.npy')
-
-
-all_m3 = [hbar_value_m3]
-all_m2 = [hbar_value_m2]
-all_m1 = [hbar_value_m1]
-all_0 = [hbar_value]
-all_1 = [hbar_value_1]
-all_2 = [hbar_value_2]
-all_3 = [hbar_value_3]
+# all_star_m3 = [hbar_star_value_m3]
+# all_star_m2 = [hbar_star_value_m2]
+# all_star_m1 = [hbar_star_value_m1]
+# all_star_0 = [hbar_star_value]
+# all_star_1 = [hbar_star_value_1]
+# all_star_2 = [hbar_star_value_2]
+# all_star_3 = [hbar_star_value_3]
 
 
 
-all_star_m3 = [hbar_star_value_m3]
-all_star_m2 = [hbar_star_value_m2]
-all_star_m1 = [hbar_star_value_m1]
-all_star_0 = [hbar_star_value]
-all_star_1 = [hbar_star_value_1]
-all_star_2 = [hbar_star_value_2]
-all_star_3 = [hbar_star_value_3]
-
-
-
-
-np.save(f'./save_hbar_NS/matrice_m3.npy',all_m3)
-np.save(f'./save_hbar_NS/matrice_m2.npy',all_m2)
-np.save(f'./save_hbar_NS/matrice_m1.npy',all_m1)
-np.save(f'./save_hbar_NS/matrice_0.npy',all_0)
-np.save(f'./save_hbar_NS/matrice_1.npy',all_1)
-np.save(f'./save_hbar_NS/matrice_2.npy',all_2)
-np.save(f'./save_hbar_NS/matrice_3.npy',all_3)
-
-np.save(f'./save_hbar_NS/matrice_star_m3.npy',all_star_m3)
-np.save(f'./save_hbar_NS/matrice_star_m2.npy',all_star_m2)
-np.save(f'./save_hbar_NS/matrice_star_m1.npy',all_star_m1)
-np.save(f'./save_hbar_NS/matrice_star_0.npy',all_star_0)
-np.save(f'./save_hbar_NS/matrice_star_1.npy',all_star_1)
-np.save(f'./save_hbar_NS/matrice_star_2.npy',all_star_2)
-np.save(f'./save_hbar_NS/matrice_star_3.npy',all_star_3)
-
+#
+# np.save(f'./save_hbar_NS/matrice_m3.npy',all_m3)
+# np.save(f'./save_hbar_NS/matrice_m2.npy',all_m2)
+# np.save(f'./save_hbar_NS/matrice_m1.npy',all_m1)
+# np.save(f'./save_hbar_NS/matrice_0.npy',all_0)
+# np.save(f'./save_hbar_NS/matrice_1.npy',all_1)
+# np.save(f'./save_hbar_NS/matrice_2.npy',all_2)
+# np.save(f'./save_hbar_NS/matrice_3.npy',all_3)
+#
+# np.save(f'./save_hbar_NS/matrice_star_m3.npy',all_star_m3)
+# np.save(f'./save_hbar_NS/matrice_star_m2.npy',all_star_m2)
+# np.save(f'./save_hbar_NS/matrice_star_m1.npy',all_star_m1)
+# np.save(f'./save_hbar_NS/matrice_star_0.npy',all_star_0)
+# np.save(f'./save_hbar_NS/matrice_star_1.npy',all_star_1)
+# np.save(f'./save_hbar_NS/matrice_star_2.npy',all_star_2)
+# np.save(f'./save_hbar_NS/matrice_star_3.npy',all_star_3)
+#
 
 
 
