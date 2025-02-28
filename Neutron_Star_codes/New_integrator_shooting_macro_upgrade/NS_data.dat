@@ -17,6 +17,7 @@ radius_density_treshold_GR,11.2
 density_treshold_ER_retro,1323
 mass_density_treshold_ER_retro,1.49
 radius_density_treshold_ER_retro,12.0
+relative_density_treshold,16
 MAX_abs_rel_diff_hbar_ER,1.5
 MAX_abs_rel_diff_mass_ER,1.4
 MAX_abs_rel_diff_radius_ER,11.4

@@ -371,7 +371,13 @@ key = 'radius_density_treshold_ER_retro'
 value = "{:.1f}".format(R_tresh_ER_retro[index_treshold_ER_retro])
 save_var_latex(key, value)
 
+relative_density_treshold = (dens_tresh_GR - dens_tresh_ER_retro)/dens_tresh_GR * 100
 
+print(f' The relative density treshold between GR et ER_retro is {relative_density_treshold:.0f}%')
+
+key = 'relative_density_treshold'
+value = f"{relative_density_treshold:.0f}"
+save_var_latex(key, value)
 
 ### Recover mass adm and density max :
 
