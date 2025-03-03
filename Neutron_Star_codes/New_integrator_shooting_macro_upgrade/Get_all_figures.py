@@ -201,7 +201,7 @@ index_min_ER_retro = np.where(delta_hbar_a_ER_retro == np.min(delta_hbar_a_ER_re
 
 
 index_max_M = np.where(mass_a == np.max(mass_a))[0][0]
-print(f'The relative variation of hbar for the most massive NS of {mass_a[index_max_M]:.1f} M_SUN and a radius of {size_a[index_max_M]:.1f} km is {delta_hbar_a[index_max_M] * 1e2:.1f} %')
+print(f'The relative variation of hbar for the most massive NS of {mass_a[index_max_M]:.1f} M_SUN and a radius of {size_a[index_max_M]:.1f} km is {delta_hbar_a[index_max_M] * 1e2:.1f} % with an associated density of {den_space[index_max_M]:.1f} ')
 
 key = 'delta_hbar_relative_most_massive_NS_ER'
 value = "{:.2e}".format(delta_hbar_a[index_max_M] * 1e2)
@@ -228,7 +228,7 @@ value = f"{value:.0f}"
 save_var_latex(key, value)
 
 index_max_M_ER_retro = np.where(mass_a_ER_retro == np.max(mass_a_ER_retro))[0][0]
-print(f'The relative variation of hbar for the most massive NS with retroaction of {mass_a_ER_retro[index_max_M_ER_retro]:.1f} M_SUN and a radius of {size_a_ER_retro[index_max_M_ER_retro]:.1f} km is {delta_hbar_a_ER_retro[index_max_M_ER_retro] * 1e2:.1f} %')
+print(f'The relative variation of hbar for the most massive NS with retroaction of {mass_a_ER_retro[index_max_M_ER_retro]:.1f} M_SUN and a radius of {size_a_ER_retro[index_max_M_ER_retro]:.1f} km is {delta_hbar_a_ER_retro[index_max_M_ER_retro] * 1e2:.1f} % with an associated density of {den_space[index_max_M_ER_retro]:.1f} ')
 
 #### La valeur de masse max donnée et celle de la densité max dépasse le treshold donc c'st un probleme, il faut poser un masque avant. Je vais donc d'abord poser un masque qui ne prend que les valeurs de masse avant treshold et ensuite prendre la masse max de ce masque
 
@@ -263,7 +263,10 @@ save_var_latex(key, value)
 
 
 index_max_M_GR = np.where(mass_a_GR == np.max(mass_a_GR))[0][0]
-print(f'The relative variation of hbar for the most massive NS of {mass_a_GR[index_max_M_GR]:.1f} M_SUN and a radius of {size_a_GR[index_max_M_GR]:.1f} km is {delta_hbar_a_GR[index_max_M_GR] * 1e2:.1f} %')
+print(f'The relative variation of hbar for the most massive NS of {mass_a_GR[index_max_M_GR]:.1f} M_SUN and a radius of {size_a_GR[index_max_M_GR]:.1f} km is {delta_hbar_a_GR[index_max_M_GR] * 1e2:.1f} % with an associated density of {den_space[index_max_M_GR]:.1f}')
+
+
+
 
 # key = 'delta_hbar_relative_most_massive_NS_GR'
 # value = delta_hbar_a_GR[index_max_M_GR] * 1e2
@@ -401,9 +404,9 @@ Max_mass_ADM_ER_retro_index = M_tresh_ER_retro.index(Max_mass_ADM_ER_retro)
 Max_density_ADM_ER_retro = den_space[Max_mass_ADM_ER_retro_index]#/(cst.eV*10**6/(cst.c**2*cst.fermi**3))
 
 print('Le maxmimu de masse ADM - densité est de : ')
-print( 'GR = ', Max_mass_ADM_GR, 'kg', 'et', Max_density_ADM_GR , 'Mev/fm3')
-print('ER =', Max_mass_ADM, 'kg', 'ET', Max_density_ADM, 'Mev/fm3')
-print('ER_retro = ' , Max_mass_ADM_ER_retro,'kg', 'et', Max_density_ADM_ER_retro , 'Mev/fm3')
+print( f'GR =  {Max_mass_ADM_GR:.1f} Solar mass et {Max_density_ADM_GR:.1f} Mev/fm3')
+print(f' {Max_mass_ADM:.1f} kg ET {Max_density_ADM:.1f} Mev/fm3')
+print(f'ER_retro {Max_mass_ADM_ER_retro:.1f} kg et {Max_density_ADM_ER_retro:.1f} Mev/fm3')
 
 
 
@@ -432,7 +435,7 @@ index_max = np.where(delta_h_tresh == np.max(delta_h_tresh))[0][0]
 index_min = np.where(delta_h_tresh == np.min(delta_h_tresh))[0][0]
 
 if np.abs(np.max(delta_h_tresh)) > np.abs(np.min(delta_h_tresh)):
-    print(f'The (absolute) maximal relative difference in hbar is {np.max(delta_h_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_max]:.1f} Solar mass \nRadius = {R_tresh[index_max]:.1f} km ')
+    print(f'The (absolute) maximal relative difference in hbar is {np.max(delta_h_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_max]:.1f} Solar mass \nRadius = {R_tresh[index_max]:.1f} km with an associated density of {den_space[index_max]:.1f}')
 
 
     key = 'MAX_abs_rel_diff_hbar_ER'
@@ -453,7 +456,7 @@ if np.abs(np.max(delta_h_tresh)) > np.abs(np.min(delta_h_tresh)):
     value = "{:.1f}".format(R_tresh[index_max])
     save_var_latex(key, value)
 
-    print(f'The (absolute) minimal relative difference in hbar is {np.min(delta_h_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_min]:.1f} Solar mass \nRadius = {R_tresh[index_min]:.1f} km ')
+    print(f'The (absolute) minimal relative difference in hbar is {np.min(delta_h_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_min]:.1f} Solar mass \nRadius = {R_tresh[index_min]:.1f} km with an associated density of {den_space[index_min]:.1f}')
 
     key = 'MIN_abs_rel_diff_hbar_ER'
     # value = "{:.2e}".format(np.min(delta_h_tresh) * 1e2)
@@ -476,7 +479,7 @@ if np.abs(np.max(delta_h_tresh)) > np.abs(np.min(delta_h_tresh)):
 
 
 else:
-    print(f'The (absolute) maximal relative difference in hbar is {np.min(delta_h_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_min]:.1f} Solar mass \nRadius = {R_tresh[index_min]:.1f} km ')
+    print(f'The (absolute) maximal relative difference in hbar is {np.min(delta_h_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_min]:.1f} Solar mass \nRadius = {R_tresh[index_min]:.1f} km with an associated density of {den_space[index_min]:.1f}')
     key = 'MAX_abs_rel_diff_hbar_ER'
     value = "{:.2e}".format(np.min(delta_h_tresh) * 1e2)
     exponent = int(exponent)
@@ -496,7 +499,7 @@ else:
     value = "{:.1f}".format(R_tresh[index_min])
     save_var_latex(key, value)
 
-    print(f'The (absolute) minimal relative difference in hbar is {np.max(delta_h_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_max]:.1f} Solar mass \nRadius = {R_tresh[index_max]:.1f} km ')
+    print(f'The (absolute) minimal relative difference in hbar is {np.max(delta_h_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_max]:.1f} Solar mass \nRadius = {R_tresh[index_max]:.1f} km with an associated density of {den_space[index_max]:.1f} ')
 
     key = 'MIN_abs_rel_diff_hbar_ER'
     value = "{:.2e}".format(np.max(delta_h_tresh) * 1e2)
@@ -544,7 +547,7 @@ index_max = np.where(delta_h_central_tresh == np.max(delta_h_central_tresh))[0][
 index_min = np.where(delta_h_central_tresh == np.min(delta_h_central_tresh))[0][0]
 
 if np.abs(np.max(delta_h_central_tresh)) > np.abs(np.min(delta_h_central_tresh)):
-    print(f'The (absolute) maximal relative difference in hbar is {np.max(delta_h_central_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_max]:.1f} Solar mass \nRadius = {R_tresh[index_max]:.1f} km ')
+    print(f'The (absolute) maximal relative difference in hbar is {np.max(delta_h_central_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_max]:.1f} Solar mass \nRadius = {R_tresh[index_max]:.1f} km with an associated density of {den_space[index_max]:.1f}')
 
 
     key = 'MAX_abs_rel_diff_central_hbar_ER'
@@ -565,7 +568,7 @@ if np.abs(np.max(delta_h_central_tresh)) > np.abs(np.min(delta_h_central_tresh))
     value = "{:.1f}".format(R_tresh[index_max])
     save_var_latex(key, value)
 
-    print(f'The (absolute) minimal relative difference in hbar is {np.min(delta_h_central_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_min]:.1f} Solar mass \nRadius = {R_tresh[index_min]:.1f} km ')
+    print(f'The (absolute) minimal relative difference in hbar is {np.min(delta_h_central_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_min]:.1f} Solar mass \nRadius = {R_tresh[index_min]:.1f} km with an associated density of {den_space[index_min]:.1f}')
 
 
     key = 'MIN_abs_rel_diff_central_hbar_ER'
@@ -611,7 +614,7 @@ else:
 
 
 
-    print(f'The (absolute) minimal relative difference in hbar is {np.max(delta_h_central_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_max]:.1f} Solar mass \nRadius = {R_tresh[index_max]:.1f} km ')
+    print(f'The (absolute) minimal relative difference in hbar is {np.max(delta_h_central_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_max]:.1f} Solar mass \nRadius = {R_tresh[index_max]:.1f} km with an associated density of ')
 
 
 
