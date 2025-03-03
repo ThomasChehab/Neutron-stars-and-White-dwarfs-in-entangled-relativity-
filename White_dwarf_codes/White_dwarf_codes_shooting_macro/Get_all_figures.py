@@ -22,27 +22,27 @@ densities = np.exp(densities)
 count = 0
 
 
-verify()
-for density in tqdm.tqdm(densities):
-
-    # tov = TOV( density ,PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, True, log_active, count)
-    # tov.ComputeTOV()
-
-    tov = TOV(density , PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, dilaton_active, log_active,count)
-    PhiInit = tov.find_dilaton_center()[0]
-    tov = TOV(density , PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, dilaton_active, log_active,count)
-    tov.ComputeTOV()
-
-    tov.recover_star_radius()
-    tov.recover_hbar_star()
-    tov.hbar_into_txt(count)
-    tov.radius_into_txt(count)
-    tov.density_into_txt()
-    if count == 0:
-        tov.save_var_latex(1, 2)
-    elif count == 248:
-        tov.save_var_latex(1, 2)
-    count += 1
+# verify()
+# for density in tqdm.tqdm(densities):
+#
+#     # tov = TOV( density ,PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, True, log_active, count)
+#     # tov.ComputeTOV()
+#
+#     tov = TOV(density , PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, dilaton_active, log_active,count)
+#     PhiInit = tov.find_dilaton_center()[0]
+#     tov = TOV(density , PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, dilaton_active, log_active,count)
+#     tov.ComputeTOV()
+#
+#     tov.recover_star_radius()
+#     tov.recover_hbar_star()
+#     tov.hbar_into_txt(count)
+#     tov.radius_into_txt(count)
+#     tov.density_into_txt()
+#     if count == 0:
+#         tov.save_var_latex(1, 2)
+#     elif count == 248:
+#         tov.save_var_latex(1, 2)
+#     count += 1
 Plot_all_hbar()
 
 # Plot_all_hbar()

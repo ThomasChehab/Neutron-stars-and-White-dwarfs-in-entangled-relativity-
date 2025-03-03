@@ -26,7 +26,7 @@ c2 = cst.c**2
 kappa = 8*np.pi*cst.G/c2**2
 massSun = 1.989*10**30
 A = 6.02e+21 # cst
-B = 9.82e8 * (4.002602/2) # cst * molecular weight of helium
+B = 9.82e8 * (15.999/8) # cst * molecular weight of helium
 
 #Equation of state
 def PEQS(x):
@@ -533,15 +533,27 @@ class TOV():
         value =  "{:.0e}".format((-1/2 * (self.phiStar - self.phi_inf) / self.phi_inf ))
         base, exponent = value.split("e")
         exponent = int(exponent)
-        value_latex = f"{base} \\times 10^{{{exponent}}}"
-        # save_var_latex(key, value_latex)
+        if self.count == 248 :
+            value_latex = f"10^{{{exponent}}}"
+            # save_var_latex(key, value_latex)
 
-        dict_var = {}
-        file_path = os.path.join(os.getcwd(), "WD_data.dat")
-        dict_var[key] = value_latex
-        with open(file_path, "a") as f:
-            for key in dict_var.keys():
-                f.write(f"{key},{dict_var[key]}\n")
+            dict_var = {}
+            file_path = os.path.join(os.getcwd(), "WD_data.dat")
+            dict_var[key] = value_latex
+            with open(file_path, "a") as f:
+                for key in dict_var.keys():
+                    f.write(f"{key},{dict_var[key]}\n")
+        else:
+            value_latex = f"{base} \\times 10^{{{exponent}}}"
+            # save_var_latex(key, value_latex)
+
+            dict_var = {}
+            file_path = os.path.join(os.getcwd(), "WD_data.dat")
+            dict_var[key] = value_latex
+            with open(file_path, "a") as f:
+                for key in dict_var.keys():
+                    f.write(f"{key},{dict_var[key]}\n")
+
 
 def verify():
     folder_path = './star_radius_folder'
