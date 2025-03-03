@@ -26,7 +26,7 @@ c2 = cst.c**2
 kappa = 8*np.pi*cst.G/c2**2
 massSun = 1.989*10**30
 A = 6.02e+21 # cst
-B = 9.82e8 * (15.999/8) # cst * molecular weight of helium
+B = 9.82e8 * (15.999/8) # cst * molecular weight of Oxygen
 
 #Equation of state
 def PEQS(x):
@@ -295,8 +295,6 @@ class TOV():
 
             if self.log_active:
                 print('Star Mass ADM: ', self.massADM, ' kg')
-                #print('hbar variation in % =', self.delta_hbar * 100)
-                #print(' hbar variation in % =', (-1/2 * (self.phiStar - self.phi_inf) / self.phi_inf) * 100)
                 print('===========================================================')
                 print('END')
                 print('===========================================================\n')
@@ -308,7 +306,7 @@ class TOV():
     def find_dilaton_center(self):
         initDensity = self.initDensity
         option = self.option
-        precision = 1e-5#8
+        precision = 1e-5
         count = self.count
         log_active = self.log_active
         dilaton_active = self.dilaton_active
@@ -366,12 +364,10 @@ class TOV():
         ComputeTOV is the function to consider in order to compute "physical" quantities. It takes into account phi_inf->1 r->infinity
         """
         self.Compute()
-        # if self.dilaton_active:
-        #     self.initPhi = self.initPhi/self.phi_inf
-        #     self.Compute()
-        # print('self.phi_inf', self.phi_inf)
 
-    #Next functions are used to store in folder white dwarfs data
+    #Next functions are used to store in folders white dwarfs data
+
+    #save star's radii
 
     def recover_star_radius(self):
         folder_path = './star_radius_folder'
@@ -386,6 +382,8 @@ class TOV():
             for element in star_radius:
                 f.write(str(element) + '\n')
 
+    #save star's hbar data
+
     def recover_hbar_star(self):
         folder_path = './star_hbar_folder'
         if not os.path.exists(folder_path):
@@ -399,7 +397,9 @@ class TOV():
             for element in star_hbar:
                 f.write(str(element) + '\n')
             
-    def density_into_txt(self): # Storing density data
+    # Storing density data
+
+    def density_into_txt(self):
         folder_path = './init_density_folder'
         if not os.path.exists(folder_path): 
             os.makedirs(folder_path) 
@@ -411,8 +411,10 @@ class TOV():
         with open(Name, 'a') as f:
             for element in Init_density:
                 f.write(str(element) + '\n')
-            
-    def hbar_into_txt(self,i): # Storing hbar variation data
+
+    # Storing hbar variation data
+
+    def hbar_into_txt(self,i):
         folder_path = './hbar_folder'
         if not os.path.exists(folder_path): 
             os.makedirs(folder_path) 
@@ -423,7 +425,9 @@ class TOV():
             for element in self.delta_hbar:
                 f.write(str(element) + '\n')
 
-    def radius_into_txt(self,i): # Storing radius data
+    # Storing radius data
+
+    def radius_into_txt(self,i):
         folder_path = './radius_folder'
         if not os.path.exists(folder_path): 
             os.makedirs(folder_path) 
@@ -433,99 +437,8 @@ class TOV():
         with open(Name, 'w') as f:
             for element in self.radius:
                 f.write(str(element) + '\n')
-        
-    #Next function goal is to recover data of white dwarf and obtain the final plot. 
-    def Plot_all_hbar(self):
-        #Recovering density data
-        density = []
-        file_path_density = ('./init_density_folder/init_density.txt')
-        f = open(file_path_density, 'r')
-        for x in f:
-            density.append(x)
-        for i in range(len(density)):
-            density[i] = float(density[i])
-        density = np.array(density)/(1e12)
 
-        #Recovering hbar data
-        hbar = []
-        for i in range(len(density)):
-            file_path_hbar = (f'./hbar_folder/hbar_data{i}.txt')
-            f = open(file_path_hbar, 'r')
-            hbar_0 = []
-            for x in f:
-                hbar_0.append(x)
-            hbar.append(hbar_0)
-        for i in range(len(hbar)):
-            for j in range(len(hbar[i])):
-                hbar[i][j] = float(hbar[i][j])
-
-        #Recovering radius data
-        radius = []
-        for i in range(len(density)):
-            file_path_radius = (f'./radius_folder/radius_data{i}.txt')
-            f = open(file_path_radius, 'r')
-            radius_0 = []
-            for x in f:
-                radius_0.append(x)
-            radius.append(radius_0)
-
-        for i in range(len(radius)):
-            for j in range(len(radius[i])):
-                radius[i][j] = float(radius[i][j])
-                radius[i][j] /= 1e8
-
-######################################
-        #recovering star radius data
-        radius_at_star = []
-        file_path_radius_star = ('./star_radius_folder/star_radius.txt')
-        f = open(file_path_radius_star, 'r')
-        for x in f:
-            radius_at_star.append(x)
-        for i in range(len(radius_at_star)):
-            radius_at_star[i] = float(radius_at_star[i])
-
-        hbar_at_star = []
-        file_path_hbar_star = ('./star_hbar_folder/star_hbar.txt')
-        f = open(file_path_hbar_star, 'r')
-        for x in f:
-            hbar_at_star.append(x)
-        for i in range(len(hbar_at_star)):
-            hbar_at_star[i] = float(hbar_at_star[i])
-
-        #Plot
-        fig, ax = plt.subplots(figsize=(11, 6))
-        cmap = plt.cm.gray_r
-        adjusted_cmap = mcolors.LinearSegmentedColormap.from_list(
-            'adjusted_gray_r', cmap(np.linspace(0.2, 0.8, 300)))
-        colors = adjusted_cmap(density)
-        plt.plot(radius_at_star, hbar_at_star,color='red', linestyle='--', label='WD surface', zorder=2)
-        for i in range(len(hbar)):
-            ax.plot(radius[i], hbar[i], color=colors[i], zorder = 1)
-        norm = mcolors.Normalize(vmin=np.min(density), vmax=np.max(density))
-        sm = plt.cm.ScalarMappable(cmap=adjusted_cmap, norm=norm)
-        sm.set_array([]) 
-        cbar = fig.colorbar(sm, ax=ax, ticks=np.linspace(np.min(density), np.max(density), num=5))
-        cbar.set_label('Core density ($10^{12}$kg/m$^3$)', fontsize=20)
-        cbar.ax.yaxis.set_major_formatter(FormatStrFormatter('%.2g'))
-        #ax.set_xlabel('Radius (km) $\\times$ 1e5', fontsize=19)
-
-        ax.set_xlabel('Distance (10$^5$km) ', fontsize=19)
-
-        ax.set_ylabel(r'$\delta \hbar/\hbar_{\infty} $', fontsize=19)
-        plt.ylim([5e-12, 4e-5])
-        ax.set_yscale('log')
-        plt.rc('xtick', labelsize=18)
-        plt.rc('ytick', labelsize=18)
-        plt.legend(loc = 'upper right')
-        plt.savefig('./deltahbar_vs_radius_WD')
-        #plt.show()
-#
-#
-#     def obtain_key_value(self):
-#         key = f'delta_hbar_surf_on_hbar_inf_{self.count}'
-#         value =  (-1/2 * (self.phiStar - self.phi_inf) / self.phi_inf )
-#         value = f"{value:.1e}"
-#         return key, value
+    #saving data in a text file
 
     def save_var_latex(self, key, value):
 
@@ -574,7 +487,7 @@ def verify():
     if os.path.exists('./WD_data.dat'):
         os.remove('./WD_data.dat')
 
-
+    #Next function goal is to recover data of white dwarf and obtain the final plot.
 def Plot_all_hbar():
         #Recovering density data
         density = []
