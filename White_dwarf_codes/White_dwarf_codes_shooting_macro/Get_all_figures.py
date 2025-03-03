@@ -20,8 +20,8 @@ highest_density = 1e13
 densities = np.linspace(np.log(lowest_density), np.log(highest_density), 250)
 densities = np.exp(densities)
 count = 0
-
-
+#
+#
 # verify()
 # for density in tqdm.tqdm(densities):
 #
@@ -45,7 +45,6 @@ count = 0
 #     count += 1
 Plot_all_hbar()
 
-# Plot_all_hbar()
 
 
 
