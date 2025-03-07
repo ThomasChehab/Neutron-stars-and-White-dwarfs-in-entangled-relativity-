@@ -1,4 +1,4 @@
-This code aims to compute the data of neutron stars in General Relativity, Entangled Relativity, and Entangled Relativity with a retroaction of the scalar field on the equation of state. In it, we checked that the retroaction of the variation of ℏℏ has almost no impact.
+This code aims to compute the data of neutron stars in General Relativity, Entangled Relativity, and Entangled Relativity with a retroaction of the scalar field on the equation of state. In it, we checked that the retroaction of the variation of ℏ has almost no impact.
 
 To launch the code, download everything from the GitHub repository. Then, you need to install the packages listed in the requirements.txt file.
 

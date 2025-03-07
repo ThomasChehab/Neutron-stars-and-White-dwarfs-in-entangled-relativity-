@@ -1,5 +1,5 @@
 # Neutron stars and White dwarfs in entangled relativity
-Entangled relativity is a recent theory of gravity based on an f(R,Lm)f(R,Lm​) action in four dimensions, where spacetime and matter are coupled multiplicatively, whereas in general relativity, the coupling is purely additive.
+Entangled relativity is a recent theory of gravity based on an f(R,Lm​) action in four dimensions, where spacetime and matter are coupled multiplicatively, whereas in general relativity, the coupling is purely additive.
 
 These codes model white dwarfs and neutron stars in entangled relativity, to study the variation of the Planck quantum of action as predicted by the theory.
 They have been used to generate Figures 3–6 of the paper Variation of the Planck Quantum of Action in the Sky, written by Thomas Chehab, Olivier Minazzoli, and (?).
