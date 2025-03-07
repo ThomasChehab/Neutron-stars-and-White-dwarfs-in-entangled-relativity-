@@ -21,24 +21,24 @@ densities = np.linspace(np.log(lowest_density), np.log(highest_density), 250)
 densities = np.exp(densities)
 count = 0
 
-# verify() #delete existing fiels to create new ones
-# for density in tqdm.tqdm(densities):
-#
-#     tov = TOV(density , PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, dilaton_active, log_active,count)
-#     PhiInit = tov.find_dilaton_center()[0] #find the value of phi at the center to have phi = 1 at infinity
-#     tov = TOV(density , PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, dilaton_active, log_active,count)
-#     tov.ComputeTOV() #computing star's data
-#
-#     tov.recover_star_radius() # saving star's data
-#     tov.recover_hbar_star()
-#     tov.hbar_into_txt(count)
-#     tov.radius_into_txt(count)
-#     tov.density_into_txt()
-#     if count == 0: # saving stars data into a text file
-#         tov.save_var_latex(1, 2)
-#     elif count == 248:
-#         tov.save_var_latex(1, 2)
-#     count += 1
+verify() #delete existing fiels to create new ones
+for density in tqdm.tqdm(densities):
+
+    tov = TOV(density , PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, dilaton_active, log_active,count)
+    PhiInit = tov.find_dilaton_center()[0] #find the value of phi at the center to have phi = 1 at infinity
+    tov = TOV(density , PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, dilaton_active, log_active,count)
+    tov.ComputeTOV() #computing star's data
+
+    tov.recover_star_radius() # saving star's data
+    tov.recover_hbar_star()
+    tov.hbar_into_txt(count)
+    tov.radius_into_txt(count)
+    tov.density_into_txt()
+    if count == 0: # saving stars data into a text file
+        tov.save_var_latex(1, 2)
+    elif count == 248:
+        tov.save_var_latex(1, 2)
+    count += 1
 Plot_all_hbar() #plot the variation of hbar versus the distance for various densities
 
 
