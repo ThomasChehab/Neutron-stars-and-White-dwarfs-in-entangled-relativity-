@@ -1,19 +1,15 @@
-This code aimed to study the variation of hbar predicted by the theory of the Entangled relativity regarding the value of the core density.
+This code aimed to study the variation of hbar in a white dwarf star, predicted by the theory of Entangled relativity regarding the value of the core density.
 
-To make the code works, you first need to download everything that is in the folder "White_dwarf_codes_shooting_macro". After, you have to install the packages present in the file requirements.txt.
+To launch the code, download everything from the GitHub repository. Then, you need to install the packages listed in the requirements.txt file.
 
-Then, you write in a terminal : 
+Next, in a terminal, run:
 
 " python3 Get_all_figures.py " 
 
-This line will launch the code. It will lead to the production of six different things.
+This command will execute the code and generate six different things.
 
-- four folders : one contains the stored data of the predicted values of hbar ("hbar_folder"), another contain the stored data of the radius of the star ("radius_folder") another contains the core density values ("init_density_folder"), another one contains the data of hbar at the radius of the star and the last one the value of the radius of the stars. These contain the values for 250 different white dwarf simulation.
+- Four folders: one contains the stored data of the predicted values of ℏ (hbar_folder), another contains the stored data of the star's radius (radius_folder), a third one contains the core density values (init_density_folder), another one contains the data of ℏ at the radius of the star, and the last one stores the values of the stars' radii. These folders contain data for 250 different white dwarf simulations from 10⁹ to 10¹³km/m³.
 
-- A figure named "deltahbar_vs_radius_WD.png", which shows the variation of hbar versus the distance to the star regarding the core density values. It is figure 6 in the paper.
+- A figure named deltahbar_vs_radius_WD.png, which shows the variation of ℏ as a function of the distance to the star, depending on the core density values. This corresponds to Figure 6 in the paper.
 
-The code is currently made so that you just have to run it to obtained the desired figure. If you want to re-run it to compute by yourself the data, you have to un-comment from the line 24 to the line 41. 
-
-Be careful, by uncommenting those lines, and running the code, it will delete all the foldes that contains the data.
-
-The run takes ~45min.
+The codes will take almost 45 minutes. In another folder named 'White_dwarf' the code works with precomputed data (stored in text files).

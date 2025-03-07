@@ -1,13 +1,14 @@
-This code aimed to compute the data of neutron stars in General Relativity, Entangled Relativity and in Entangled Relativity with a retroaction of the scalar field. Also, in it we check that the retroaction of the variation of hbar onto the equation of state of the star has almost no impact.
+This code aims to compute the data of neutron stars in General Relativity, Entangled Relativity, and Entangled Relativity with a retroaction of the scalar field on the equation of state. In it, we checked that the retroaction of the variation of ℏℏ has almost no impact.
 
-To launch the codes, after having donwolad everything that is in the folder"New_integrator_shooting_macro_upgrade". After you need to install the packages present in the file requirements.txt.
+To launch the code, download everything from the GitHub repository. Then, you need to install the packages listed in the requirements.txt file.
 
-The, in a terminal you write :
+Then, in a terminal run :
 
 " python3 Get_all_figures.py " 
 
-This line will launch the code. It will lead to the production of a folder named ' save_hbar_NS'. In this one you will find matrices that contains 1000 neutron star's data that ranges from 100 to 2000 MeV/fm3. You will also find 3 plots. Two showing the values of the stars mass versus their radius depending on their relative variation in hbar. These are for the center of the star (scatter_1000.png) and at their surface (scatter_treshold_1000.png). There is also a figure named "hbar_variation_comparison_NS.png", which shows the variation of hbar versus the distance to the star in the case with the retroaction and without.
+This command will execute the code and generate a folder named save_hbar_NS. Inside, you will find matrices containing data for 1000 neutron stars, with energy densities ranging from 100 to 2000 MeV/fm³. You will also find three plots:
 
-The code work with previous data ( contained in the matrices ). If you want to run it by yourself download and launch the other folder name ''.
+- Two showing the star mass as a function of radius, depending on their relative variation in ℏ. These correspond to values at the center of the star (scatter_1000.png) and at the surface (scatter_treshold_1000.png).
+- A third figure, 'hbar_variation_comparison_NS.png', which illustrates the variation of ℏ as a function of the distance to the star, comparing the cases with and without retroaction.
 
-
+This code will take almost 12 hours. In another folder named 'Neutron_star' the code works with precomputed data (stored in matrices).
