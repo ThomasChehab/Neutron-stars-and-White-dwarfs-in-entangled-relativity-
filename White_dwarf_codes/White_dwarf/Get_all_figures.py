@@ -34,11 +34,6 @@ count = 0
 #     tov.hbar_into_txt(count)
 #     tov.radius_into_txt(count)
 #     tov.density_into_txt()
-#     if count == 0: # saving stars data into a text file
-#         tov.save_var_latex(1, 2)
-#     elif count == 248:
-#         tov.save_var_latex(1, 2)
-#     count += 1
 Plot_all_hbar() #plot the variation of hbar versus the distance for various densities
 
 

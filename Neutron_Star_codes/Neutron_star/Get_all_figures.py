@@ -199,27 +199,6 @@ index_min_ER_retro = np.where(delta_hbar_a_ER_retro == np.min(delta_hbar_a_ER_re
 index_max_M = np.where(mass_a == np.max(mass_a))[0][0]
 print(f'The relative variation of hbar for the most massive NS of {mass_a[index_max_M]:.1f} M_SUN and a radius of {size_a[index_max_M]:.1f} km is {delta_hbar_a[index_max_M] * 1e2:.1f} % with an associated density of {den_space[index_max_M]:.1f} ')
 
-key = 'delta_hbar_relative_most_massive_NS_ER'
-value = "{:.2e}".format(delta_hbar_a[index_max_M] * 1e2)
-base, exponent = value.split("e")
-exponent = int(exponent)
-value_latex = f"{base}"
-save_var_latex(key, value_latex)
-
-key = 'Most_massive_star_ER'
-value = "{:.2f}".format(mass_a[index_max_M])
-save_var_latex(key, value)
-
-key = 'associated_radius_ER'
-value = "{:.1f}".format(size_a[index_max_M])
-save_var_latex(key, value)
-
-
-key = 'associated_density_ER'
-value = den_space[index_max_M]
-value = f"{value:.0f}"
-save_var_latex(key, value)
-
 index_max_M_ER_retro = np.where(mass_a_ER_retro == np.max(mass_a_ER_retro))[0][0]
 print(f'The relative variation of hbar for the most massive NS with retroaction of {mass_a_ER_retro[index_max_M_ER_retro]:.1f} M_SUN and a radius of {size_a_ER_retro[index_max_M_ER_retro]:.1f} km is {delta_hbar_a_ER_retro[index_max_M_ER_retro] * 1e2:.1f} % with an associated density of {den_space[index_max_M_ER_retro]:.1f} ')
 
@@ -227,43 +206,8 @@ R_tresh_ER_retro = all_a_ER_retro[0][all_a_ER_retro[4] < 1/ np.sqrt(3)]
 M_tresh_ER_retro = all_a_ER_retro[1][all_a_ER_retro[4] < 1/ np.sqrt(3)]
 
 index_most_massive_ER_retro = np.where(M_tresh_ER_retro == np.max(M_tresh_ER_retro))[0][0]
-
-key = 'Most_massive_star_ER_retro'
-value = "{:.2e}".format(mass_a_ER_retro[index_most_massive_ER_retro])
-exponent = int(exponent)
-base, exponent = value.split("e")
-value_latex = f"{base}"
-save_var_latex(key, value_latex)
-
-key = 'associated_radius_ER_retro'
-value = "{:.1f}".format(size_a_ER_retro[index_most_massive_ER_retro])
-save_var_latex(key, value)
-
-key = 'associated_density_ER_retro'
-value = den_space[index_most_massive_ER_retro]
-value = f"{value:.0f}"
-save_var_latex(key, value)
-
-
 index_max_M_GR = np.where(mass_a_GR == np.max(mass_a_GR))[0][0]
 print(f'The relative variation of hbar for the most massive NS of {mass_a_GR[index_max_M_GR]:.1f} M_SUN and a radius of {size_a_GR[index_max_M_GR]:.1f} km is {delta_hbar_a_GR[index_max_M_GR] * 1e2:.1f} % with an associated density of {den_space[index_max_M_GR]:.1f}')
-
-
-key = 'Most_massive_star_GR'
-value = mass_a_GR[index_max_M_GR]
-value = f"{value:.2f}"
-save_var_latex(key, value)
-
-key = 'associated_radius_GR'
-value = size_a_GR[index_max_M_GR]
-value = f"{value:.1f}"
-save_var_latex(key, value)
-
-key = 'associated_density_GR'
-value = den_space[index_max_M_GR]
-value = f"{value:.0f}"
-save_var_latex(key, value)
-
 
 R_tresh = all_a[0][all_a[4] < 1/ np.sqrt(3)]
 M_tresh = all_a[1][all_a[4] < 1/ np.sqrt(3)]
@@ -284,72 +228,16 @@ delta_h_central_tresh_ER_retro = all_a_ER_retro[3][all_a_ER_retro[4] < 1/ np.sqr
 
 dens_tresh = den_space[np.where(all_a[4] < 1/ np.sqrt(3))[0][-1]]
 print(f'In ER, above the density of {dens_tresh:.0f} Mev/fm^3, the speed of sound somewhere inside the neutron star becomes larger than the conservative limit c/sqrt(3)\n')
-
 index_treshold_ER = np.where(all_a[4] < 1/ np.sqrt(3))[0][-1]
-
-
-key = 'density_treshold_ER'
-value = f"{dens_tresh:.0f}"
-save_var_latex(key, value)
-
-key = 'mass_density_treshold_ER'
-value = "{:.2e}".format(M_tresh[index_treshold_ER])
-exponent = int(exponent)
-base, exponent = value.split("e")
-value_latex = f"{base}"
-save_var_latex(key, value_latex)
-
-
-key = 'radius_density_treshold_ER'
-value = "{:.1f}".format(R_tresh[index_treshold_ER])
-save_var_latex(key, value)
-
 index_treshold_GR = np.where(all_a_GR[3] < 1/ np.sqrt(3))[0][-1]
-
 dens_tresh_GR = den_space[np.where(all_a_GR[3] < 1/ np.sqrt(3))[0][-1]]
 print(f'In GR, above the density of {dens_tresh_GR:.0f} Mev/fm^3, the speed of sound somewhere inside the neutron star becomes larger than the conservative limit c/sqrt(3)')
-
-key = 'density_treshold_GR'
-value = f"{dens_tresh_GR:.0f}"
-save_var_latex(key, value)
-
-key = 'mass_density_treshold_GR'
-value = "{:.2e}".format(M_tresh_GR[index_treshold_GR])
-exponent = int(exponent)
-base, exponent = value.split("e")
-value_latex = f"{base}"
-save_var_latex(key, value_latex)
-
-key = 'radius_density_treshold_GR'
-value = "{:.1f}".format(R_tresh_GR[index_treshold_GR])
-save_var_latex(key, value)
-
 index_treshold_ER_retro = np.where(all_a_ER_retro[4] < 1/ np.sqrt(3))[0][-1]
 dens_tresh_ER_retro = den_space[np.where(all_a_ER_retro[4] < 1/ np.sqrt(3))[0][-1]]
 print(f'In ER_retro, above the density of {dens_tresh_ER_retro:.0f} Mev/fm^3, the speed of sound somewhere inside the neutron star becomes larger than the conservative limit c/sqrt(3)\n')
-
-key = 'density_treshold_ER_retro'
-value = f"{dens_tresh_ER_retro:.0f}"
-save_var_latex(key, value)
-
-key = 'mass_density_treshold_ER_retro'
-value = "{:.2e}".format(M_tresh_ER_retro[index_treshold_ER_retro])
-exponent = int(exponent)
-base, exponent = value.split("e")
-value_latex = f"{base}"
-save_var_latex(key, value_latex)
-
-key = 'radius_density_treshold_ER_retro'
-value = "{:.1f}".format(R_tresh_ER_retro[index_treshold_ER_retro])
-save_var_latex(key, value)
-
 relative_density_treshold = (dens_tresh_GR - dens_tresh_ER_retro)/dens_tresh_GR * 100
-
 print(f' The relative density treshold between GR et ER_retro is {relative_density_treshold:.0f}%')
 
-key = 'relative_density_treshold'
-value = f"{relative_density_treshold:.0f}"
-save_var_latex(key, value)
 
 ### Recover mass adm and density max :
 
@@ -361,12 +249,9 @@ Max_mass_ADM = max(M_tresh)
 Max_mass_ADM_index = M_tresh.index(Max_mass_ADM)
 Max_density_ADM = den_space[Max_mass_ADM_index]#/(cst.eV*10**6/(cst.c**2*cst.fermi**3))
 
-
 Max_mass_ADM_GR = max(M_tresh_GR)
 Max_mass_ADM_GR_index = M_tresh_GR.index(Max_mass_ADM_GR)
 Max_density_ADM_GR = den_space[Max_mass_ADM_GR_index]#/(cst.eV*10**6/(cst.c**2*cst.fermi**3))
-
-
 
 Max_mass_ADM_ER_retro = max(M_tresh_ER_retro)
 Max_mass_ADM_ER_retro_index = M_tresh_ER_retro.index(Max_mass_ADM_ER_retro)
@@ -376,8 +261,6 @@ print('Le maxmimu de masse ADM - densité est de : ')
 print( f'GR =  {Max_mass_ADM_GR:.1f} Solar mass et {Max_density_ADM_GR:.1f} Mev/fm3')
 print(f' {Max_mass_ADM:.1f} kg ET {Max_density_ADM:.1f} Mev/fm3')
 print(f'ER_retro {Max_mass_ADM_ER_retro:.1f} kg et {Max_density_ADM_ER_retro:.1f} Mev/fm3')
-
-
 
 ##################################################################
 ## plot mass max vs radius and delta hbar surface
@@ -398,83 +281,15 @@ plt.savefig(f'./save_hbar_NS/scatter_treshold_{n}.png', dpi= 200, bbox_inches="t
 plt.close()
 
 
-
-
 index_max = np.where(delta_h_tresh == np.max(delta_h_tresh))[0][0]
 index_min = np.where(delta_h_tresh == np.min(delta_h_tresh))[0][0]
 
 if np.abs(np.max(delta_h_tresh)) > np.abs(np.min(delta_h_tresh)):
     print(f'The (absolute) maximal relative difference in hbar is {np.max(delta_h_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_max]:.1f} Solar mass \nRadius = {R_tresh[index_max]:.1f} km with an associated density of {den_space[index_max]:.1f}')
-
-
-    key = 'MAX_abs_rel_diff_hbar_ER'
-    value = f"{np.max(delta_h_tresh) * 1e2:.1f}"
-    save_var_latex(key, value)
-
-    key = 'MAX_abs_rel_diff_mass_ER'
-    value = f"{M_tresh[index_max]:.1f}"
-    save_var_latex(key, value)
-
-    key = 'MAX_abs_rel_diff_radius_ER'
-    value = "{:.1f}".format(R_tresh[index_max])
-    save_var_latex(key, value)
-
     print(f'The (absolute) minimal relative difference in hbar is {np.min(delta_h_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_min]:.1f} Solar mass \nRadius = {R_tresh[index_min]:.1f} km with an associated density of {den_space[index_min]:.1f}')
-
-    key = 'MIN_abs_rel_diff_hbar_ER'
-    value = f'{np.min(delta_h_tresh) * 1e2:.1f}'
-    save_var_latex(key, value)
-
-    key = 'MIN_abs_rel_diff_mass_ER'
-    value = f"{M_tresh[index_min]:.1f}"
-    save_var_latex(key, value)
-
-    key = 'MIN_abs_rel_diff_radius_ER'
-    value = "{:.1f}".format(R_tresh[index_min])
-    save_var_latex(key, value)
-
-
 else:
     print(f'The (absolute) maximal relative difference in hbar is {np.min(delta_h_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_min]:.1f} Solar mass \nRadius = {R_tresh[index_min]:.1f} km with an associated density of {den_space[index_min]:.1f}')
-    key = 'MAX_abs_rel_diff_hbar_ER'
-    value = "{:.2e}".format(np.min(delta_h_tresh) * 1e2)
-    exponent = int(exponent)
-    base, exponent = value.split("e")
-    value_latex = f"{base}"
-    save_var_latex(key, value_latex)
-
-    key = 'MAX_abs_rel_diff_mass_ER'
-    print(M_tresh_ER_retro[-1])
-    value = "{:.2e}".format(M_tresh[index_min])
-    exponent = int(exponent)
-    base, exponent = value.split("e")
-    value_latex = f"{base}"
-    save_var_latex(key, value_latex)
-
-    key = 'MAX_abs_rel_diff_radius_ER'
-    value = "{:.1f}".format(R_tresh[index_min])
-    save_var_latex(key, value)
-
     print(f'The (absolute) minimal relative difference in hbar is {np.max(delta_h_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_max]:.1f} Solar mass \nRadius = {R_tresh[index_max]:.1f} km with an associated density of {den_space[index_max]:.1f} ')
-
-    key = 'MIN_abs_rel_diff_hbar_ER'
-    value = "{:.2e}".format(np.max(delta_h_tresh) * 1e2)
-    exponent = int(exponent)
-    base, exponent = value.split("e")
-    value_latex = f"{base}"
-    save_var_latex(key, value_latex)
-
-    key = 'MIN_abs_rel_diff_mass_ER'
-    value = "{:.2e}".format(M_tresh[index_max])
-    exponent = int(exponent)
-    base, exponent = value.split("e")
-    value_latex = f"{base}"
-    save_var_latex(key, value_latex)
-
-    key = 'MIN_abs_rel_diff_radius_ER'
-    value = "{:.1f}".format(R_tresh[index_max])
-    save_var_latex(key, value)
-
 
 
 
@@ -498,71 +313,16 @@ plt.savefig(f'./save_hbar_NS/scatter_1000.png', dpi= 200, bbox_inches="tight")
 plt.close()
 
 
-
 index_max = np.where(delta_h_central_tresh == np.max(delta_h_central_tresh))[0][0]
 index_min = np.where(delta_h_central_tresh == np.min(delta_h_central_tresh))[0][0]
 
 if np.abs(np.max(delta_h_central_tresh)) > np.abs(np.min(delta_h_central_tresh)):
     print(f'The (absolute) maximal relative difference in hbar is {np.max(delta_h_central_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_max]:.1f} Solar mass \nRadius = {R_tresh[index_max]:.1f} km with an associated density of {den_space[index_max]:.1f}')
-
-
-    key = 'MAX_abs_rel_diff_central_hbar_ER'
-    value = f"{np.max(delta_h_central_tresh) * 1e2:.1f}"
-    save_var_latex(key, value)
-
-    key = 'MAX_abs_rel_diff_central_mass_ER'
-    value = f"{M_tresh[index_max]:.1f}"
-    save_var_latex(key, value)
-
-    key = 'MAX_abs_rel_diff_central_radius_ER'
-    value = "{:.1f}".format(R_tresh[index_max])
-    save_var_latex(key, value)
-
     print(f'The (absolute) minimal relative difference in hbar is {np.min(delta_h_central_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_min]:.1f} Solar mass \nRadius = {R_tresh[index_min]:.1f} km with an associated density of {den_space[index_min]:.1f}')
-
-
-    key = 'MIN_abs_rel_diff_central_hbar_ER'
-    value = f'{np.min(delta_h_central_tresh) * 1e2:.1f}'
-    save_var_latex(key, value)
-
-    key = 'MIN_abs_rel_diff_central_mass_ER'
-    value = f"{M_tresh[index_min]:.1f}"
-    save_var_latex(key, value)
-
-    key = 'MIN_abs_rel_diff_central_radius_ER'
-    value = "{:.1f}".format(R_tresh[index_min])
-    save_var_latex(key, value)
 
 else:
     print(f'The (absolute) maximal relative difference in hbar is {np.min(delta_h_central_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_min]:.1f} Solar mass \nRadius = {R_tresh[index_min]:.1f} km ')
-
-    key = 'MAX_abs_rel_diff_central_hbar_ER'
-    value = f'{np.min(delta_h_central_tresh) * 1e2:.1f}'
-    save_var_latex(key, value)
-
-    key = 'MAX_abs_rel_diff_central_mass_ER'
-    value = f"{M_tresh[index_min]:.1f}"
-    save_var_latex(key, value)
-
-    key = 'MAX_abs_rel_diff_central_radius_ER'
-    value = "{:.1f}".format(R_tresh[index_min])
-    save_var_latex(key, value)
-
-
     print(f'The (absolute) minimal relative difference in hbar is {np.max(delta_h_central_tresh) * 1e2:.1f} %\nMass =  {M_tresh[index_max]:.1f} Solar mass \nRadius = {R_tresh[index_max]:.1f} km with an associated density of ')
-
-
-    key = 'MIN_abs_rel_diff_central_hbar_ER'
-    value = f"{np.max(delta_h_central_tresh) * 1e2:.1f}"
-    save_var_latex(key, value)
-
-    key = 'MIN_abs_rel_diff_central_mass_ER'
-    value = f"{M_tresh[index_max]:.1f}"
-    save_var_latex(key, value)
-
-    key = 'MIN_abs_rel_diff_central_radius_ER'
-    value = "{:.1f}".format(R_tresh[index_max])
-    save_var_latex(key, value)
 
 
 ############################################ PLOT 3 ######################################
@@ -662,15 +422,7 @@ plt.savefig('./save_hbar_NS/hbar_variation_comparison_NS')
 # plt.show()
 
 
-
-
-
-
 ############# hbar dependence study ##########
-
-
-
-
 
 def hbar_dependence_effect(initDensity):
 
@@ -765,70 +517,4 @@ hbar_star_value_3= all_star_3[0]
 # np.save(f'./save_hbar_NS/matrice_star_2.npy',all_star_2)
 # np.save(f'./save_hbar_NS/matrice_star_3.npy',all_star_3)
 
-### surface ####
-hbar_inf = 1
-
-key = 'hbar_error_-3'
-value = (all_star_m3[0] - all_star_0[0])/(all_star_m3[0]-hbar_inf) * 100
-value = f"{value:.0f}"
-save_var_latex_dependence(key, value)
-
-key = 'hbar_error_-2'
-value = (all_star_m2[0] - all_star_0[0])/(all_star_m2[0]-hbar_inf) * 100
-value = f"{value:.0f}"
-save_var_latex_dependence(key, value)
-
-key = 'hbar_error_-1'
-value = (all_star_m1[0] - all_star_0[0])/(all_star_m1[0]-hbar_inf) * 100
-value = f"{value:.0f}"
-save_var_latex_dependence(key, value)
-
-key = 'hbar_error_1'
-value = (all_star_1[0] - all_star_0[0])/(all_star_1[0]-hbar_inf) * 100
-value = f"{value:.0f}"
-save_var_latex_dependence(key, value)
-
-key = 'hbar_error_2'
-value = (all_star_2[0] - all_star_0[0])/(all_star_2[0]-hbar_inf) * 100
-value = f"{value:.0f}"
-save_var_latex_dependence(key, value)
-
-key = 'hbar_error_3'
-value = (all_star_3[0] - all_star_0[0])/(all_star_3[0]-hbar_inf) * 100
-value = f"{value:.0f}"
-save_var_latex_dependence(key, value)
-
-
-### center ####
-
-
-key = 'hbar_center_error_-3'
-value = (all_m3[0][0] - all_0[0][0])/(all_m3[0][0]-hbar_inf) * 100
-value = f"{value:.0f}"
-save_var_latex_dependence(key, value)
-
-key = 'hbar_center_error_-2'
-value = (all_m2[0][0] - all_0[0][0])/(all_m2[0][0]-hbar_inf) * 100
-value = f"{value:.0f}"
-save_var_latex_dependence(key, value)
-
-key = 'hbar_center_error_-1'
-value = (all_m1[0][0] - all_0[0][0])/(all_m1[0][0]-hbar_inf) * 100
-value = f"{value:.0f}"
-save_var_latex_dependence(key, value)
-
-key = 'hbar_center_error_1'
-value = (all_1[0][0] - all_0[0][0])/(all_1[0][0]-hbar_inf) * 100
-value = f"{value:.0f}"
-save_var_latex_dependence(key, value)
-
-key = 'hbar_center_error_2'
-value = (all_2[0][0] - all_0[0][0])/(all_2[0][0]-hbar_inf) * 100
-value = f"{value:.0f}"
-save_var_latex_dependence(key, value)
-
-key = 'hbar_center_error_3'
-value = (all_3[0][0] - all_0[0][0])/(all_3[0][0]-hbar_inf) * 100
-value = f"{value:.0f}"
-save_var_latex_dependence(key, value)
 
