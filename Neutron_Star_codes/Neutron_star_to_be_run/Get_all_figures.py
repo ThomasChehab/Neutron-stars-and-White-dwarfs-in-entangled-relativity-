@@ -101,7 +101,7 @@ def run_ER_retro(rho_cen):
     return radiusStar, mass_ADM, phi_star, phi_0, SoS_c_max
 
 
-n = 2 # 4000
+n = 1000 # 4000
 den_space = np.linspace(100,2000,num=n)
 size_a = np.array([])
 mass_a = np.array([])
