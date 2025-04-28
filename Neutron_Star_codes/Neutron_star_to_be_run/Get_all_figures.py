@@ -271,7 +271,7 @@ Max_mass_ADM_ER_retro = max(M_tresh_ER_retro)
 Max_mass_ADM_ER_retro_index = M_tresh_ER_retro.index(Max_mass_ADM_ER_retro)
 Max_density_ADM_ER_retro = den_space[Max_mass_ADM_ER_retro_index]#/(cst.eV*10**6/(cst.c**2*cst.fermi**3))
 
-print('Le maxmimu de masse ADM - densité est de : ')
+print('Le maxmimu de masse ADM - densité is equal to: ')
 print( f'GR =  {Max_mass_ADM_GR:.1f} Solar mass et {Max_density_ADM_GR:.1f} Mev/fm3')
 print(f' {Max_mass_ADM:.1f} kg ET {Max_density_ADM:.1f} Mev/fm3')
 print(f'ER_retro {Max_mass_ADM_ER_retro:.1f} kg et {Max_density_ADM_ER_retro:.1f} Mev/fm3')
@@ -579,11 +579,9 @@ value_3 = (hbar_star_3 - hbar_star_value)/(hbar_star_3-hbar_inf) * 100
 # np.save(f'./save_hbar_NS/matrice_star_2.npy',all_star_2)
 # np.save(f'./save_hbar_NS/matrice_star_3.npy',all_star_3)
 
-hbar_inf = 1
-
-print('L\'erreur faite avec une dépenance en $\hbar^-^3$ est de ', f"{value_m3:.0f}", '%')
-# print('L\'erreur faite avec une dépenance en $\hbar^-^2$ est de ', f"{value_m2:.0f}", '%')
-# print('L\'erreur faite avec une dépenance en $\hbar^-^1$ est de ', f"{value_m1:.0f}", '%')
-# print('L\'erreur faite avec une dépenance en $\hbar^^1$ est de ', f"{value_1:.0f}", '%')
-# print('L\'erreur faite avec une dépenance en $\hbar^^2$ est de ', f"{value_2:.0f}", '%')
-# print('L\'erreur faite avec une dépenance en $\hbar^^3$ est de ', f"{value_3:.0f}", '%')
+print('The error made with a dependency in $\hbar^-3$ is equal to', f"{value_m3:.0f}", '%')
+print('The error made with a dependency in $\hbar^-2$ is equal to', f"{value_m2:.0f}", '%')
+print('The error made with a dependency in $\hbar^-1$ is equal to', f"{value_m1:.0f}", '%')
+print('The error made with a dependency in $\hbar$ is equal to', f"{value_1:.0f}", '%')
+print('The error made with a dependency in $\hbar^2$ is equal to', f"{value_2:.0f}", '%')
+print('The error made with a dependency in $\hbar^3$ is equal to', f"{value_3:.0f}", '%')

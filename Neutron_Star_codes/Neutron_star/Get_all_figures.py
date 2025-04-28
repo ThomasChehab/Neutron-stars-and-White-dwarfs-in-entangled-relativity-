@@ -481,7 +481,7 @@ all_star_m1 = np.load(f'./save_hbar_NS/matrice_star_m1.npy')
 all_star_0 = np.load(f'./save_hbar_NS/matrice_star_0.npy')
 all_star_1 = np.load(f'./save_hbar_NS/matrice_star_1.npy')
 all_star_2 = np.load(f'./save_hbar_NS/matrice_star_2.npy')
-all_star_3 = np.load(f'./save_hbar_NS/matrice_star_m3.npy')
+all_star_3 = np.load(f'./save_hbar_NS/matrice_star_3.npy')
 
 hbar_value_m3 = all_m3[0]
 hbar_value_m2= all_m2[0]
@@ -517,4 +517,17 @@ hbar_star_value_3= all_star_3[0]
 # np.save(f'./save_hbar_NS/matrice_star_2.npy',all_star_2)
 # np.save(f'./save_hbar_NS/matrice_star_3.npy',all_star_3)
 
+hbar_inf = 1
+value_m3 = (hbar_star_value_m3 - hbar_star_value_0)/(hbar_star_value_m3-hbar_inf) * 100
+value_m2 = (hbar_star_value_m2 - hbar_star_value_0)/(hbar_star_value_m2-hbar_inf) * 100
+value_m1 = (hbar_star_value_m1 - hbar_star_value_0)/(hbar_star_value_m1-hbar_inf) * 100
+value_1 = (hbar_star_value_1 - hbar_star_value_0)/(hbar_star_value_1-hbar_inf) * 100
+value_2 = (hbar_star_value_2 - hbar_star_value_0)/(hbar_star_value_2-hbar_inf) * 100
+value_3 = (hbar_star_value_3 - hbar_star_value_0)/(hbar_star_value_3-hbar_inf) * 100
 
+print('The error made with a dependency in $\hbar^-3$ is equal to', f"{value_m3:.0f}", '%')
+print('The error made with a dependency in $\hbar^-2$ is equal to', f"{value_m2:.0f}", '%')
+print('The error made with a dependency in $\hbar^-1$ is equal to', f"{value_m1:.0f}", '%')
+print('The error made with a dependency in $\hbar$ is equal to', f"{value_1:.0f}", '%')
+print('The error made with a dependency in $\hbar^2$ is equal to', f"{value_2:.0f}", '%')
+print('The error made with a dependency in $\hbar^3$ is equal to', f"{value_3:.0f}", '%')
