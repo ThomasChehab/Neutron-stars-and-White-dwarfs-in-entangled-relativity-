@@ -101,7 +101,7 @@ def run_ER_retro(rho_cen):
     return radiusStar, mass_ADM, phi_star, phi_0, SoS_c_max
 
 
-n = 1000 # 4000
+n = 2 # 4000
 den_space = np.linspace(100,2000,num=n)
 size_a = np.array([])
 mass_a = np.array([])
@@ -412,26 +412,29 @@ def hbar_effect_retro(initDensity):
 #
 # radius_Star = np.load(f'./save_hbar_NS/matrice_radius_star.npy')
 
+# hbar_values_retro = all_retro[0]
+# radius_values_retro = all_retro[1]/1e3
+#
+# hbar_values = all_normal[0]
+# radius_values = all_normal[1]/1e3
+
+
 hbar_values, radius_values, radius_star_value = hbar_effect(1000)
 hbar_values_retro, radius_values_retro = hbar_effect_retro(1000)
 
-hbar_values_retro = all_retro[0]
-radius_values_retro = all_retro[1]/1e3
+normal_values = [hbar_values, radius_values]
+retro_values = [hbar_values_retro, radius_values_retro]
 
-hbar_values = all_normal[0]
-radius_values = all_normal[1]/1e3
-
-
-np.save(f'./save_hbar_NS/matrice_normal.npy',all_normal)
-np.save(f'./save_hbar_NS/matrice_radius_star.npy',radius_Star)
-np.save(f'./save_hbar_NS/matrice_retro.npy',all_retro)
+np.save(f'./save_hbar_NS/matrice_normal.npy',normal_values)
+np.save(f'./save_hbar_NS/matrice_radius_star.npy',radius_star_value)
+np.save(f'./save_hbar_NS/matrice_retro.npy',retro_values)
 
 
-hbar_normal = all_normal[0]
-hbar_retro = all_retro[0]
-radius_normal = all_normal[1]/1e3
-radius_retro = all_retro[1]/1e3
-star_radius= radius_Star[0]/1e3
+hbar_normal = normal_values[0]
+hbar_retro = retro_values[0]
+radius_normal = normal_values[1]/1e3
+radius_retro = retro_values[1]/1e3
+star_radius= radius_star_value/1e3
 
 #Plot
 plt.figure()
@@ -483,19 +486,48 @@ for i in range(-3 ,4):
 for dependence in tqdm(Dependence):
     if dependence == -3:
         hbar_value_m3, radius_value_m3, hbar_star_value_m3 = hbar_dependence_effect(1000)
+        hbar_m3 = hbar_value_m3
+        radius_m3 = radius_value_m3
+        hbar_star_m3 = hbar_star_value_m3
+
     elif dependence == -2:
         hbar_value_m2, radius_value_m2, hbar_star_value_m2 = hbar_dependence_effect(1000)
+        hbar_m2 = hbar_value_m2
+        radius_m2 = radius_value_m2
+        hbar_star_m2 = hbar_star_value_m2
     elif dependence == -1:
         hbar_value_m1, radius_value_m1, hbar_star_value_m1 = hbar_dependence_effect(1000)
+        hbar_m1 = hbar_value_m1
+        radius_m1 = radius_value_m1
+        hbar_star_m1 = hbar_star_value_m1
     elif dependence == 0:
         hbar_value, radius_value, hbar_star_value = hbar_dependence_effect(1000)
+        hbar = hbar_value
+        radius = radius_value
+        hbar_star = hbar_star_value
     elif dependence == 1:
         hbar_value_1, radius_value_1, hbar_star_value_1 = hbar_dependence_effect(1000)
+        hbar_1 = hbar_value_1
+        radius_1 = radius_value_1
+        hbar_star_1 = hbar_star_value_1
     elif dependence == 2:
         hbar_value_2, radius_value_2, hbar_star_value_2 = hbar_dependence_effect(1000)
+        hbar_2 = hbar_value_2
+        radius_2 = radius_value_2
+        hbar_star_2 = hbar_star_value_2
     elif dependence == 3:
         hbar_value_3, radius_value_3, hbar_star_value_3 = hbar_dependence_effect(1000)
+        hbar_3 = hbar_value_3
+        radius_3 = radius_value_3
+        hbar_star_3 = hbar_star_value_3
 
+hbar_inf = 1
+value_m3 = (hbar_star_m3 - hbar_star_value)/(hbar_star_m3-hbar_inf) * 100
+value_m2 = (hbar_star_m2 - hbar_star_value)/(hbar_star_m2-hbar_inf) * 100
+value_m1 = (hbar_star_m1 - hbar_star_value)/(hbar_star_m1-hbar_inf) * 100
+value_1 = (hbar_star_1 - hbar_star_value)/(hbar_star_1-hbar_inf) * 100
+value_2 = (hbar_star_2 - hbar_star_value)/(hbar_star_2-hbar_inf) * 100
+value_3 = (hbar_star_3 - hbar_star_value)/(hbar_star_3-hbar_inf) * 100
 
 # all_m3 = np.load(f'./save_hbar_NS/matrice_m3.npy')
 # all_m2 = np.load(f'./save_hbar_NS/matrice_m2.npy')
@@ -513,37 +545,45 @@ for dependence in tqdm(Dependence):
 # all_star_1 = np.load(f'./save_hbar_NS/matrice_star_1.npy')
 # all_star_2 = np.load(f'./save_hbar_NS/matrice_star_2.npy')
 # all_star_3 = np.load(f'./save_hbar_NS/matrice_star_m3.npy')
+#
+# hbar_value_m2= all_m2[0]
+# hbar_value_m1= all_m1[0]
+# hbar_value_0= all_0[0]
+# hbar_value_1= all_1[0]
+# hbar_value_2= all_2[0]
+# hbar_value_3= all_3[0]
+#
+#
+# hbar_star_m3 = all_star_m3[0]
+# hbar_star_value_m2= all_star_m2[0]
+# hbar_star_value_m1= all_star_m1[0]
+# hbar_star_value_0= all_star_0[0]
+# hbar_star_value_1= all_star_1[0]
+# hbar_star_value_2= all_star_2[0]
+# hbar_star_value_3= all_star_3[0]
 
-hbar_value_m3 = all_m3[0]
-hbar_value_m2= all_m2[0]
-hbar_value_m1= all_m1[0]
-hbar_value_0= all_0[0]
-hbar_value_1= all_1[0]
-hbar_value_2= all_2[0]
-hbar_value_3= all_3[0]
 
+# np.save(f'./save_hbar_NS/matrice_m3.npy',all_m3)
+# np.save(f'./save_hbar_NS/matrice_m2.npy',all_m2)
+# np.save(f'./save_hbar_NS/matrice_m1.npy',all_m1)
+# np.save(f'./save_hbar_NS/matrice_0.npy',all_0)
+# np.save(f'./save_hbar_NS/matrice_1.npy',all_1)
+# np.save(f'./save_hbar_NS/matrice_2.npy',all_2)
+# np.save(f'./save_hbar_NS/matrice_3.npy',all_3)
+#
+# np.save(f'./save_hbar_NS/matrice_star_m3.npy',all_star_m3)
+# np.save(f'./save_hbar_NS/matrice_star_m2.npy',all_star_m2)
+# np.save(f'./save_hbar_NS/matrice_star_m1.npy',all_star_m1)
+# np.save(f'./save_hbar_NS/matrice_star_0.npy',all_star_0)
+# np.save(f'./save_hbar_NS/matrice_star_1.npy',all_star_1)
+# np.save(f'./save_hbar_NS/matrice_star_2.npy',all_star_2)
+# np.save(f'./save_hbar_NS/matrice_star_3.npy',all_star_3)
 
-hbar_star_value_m3 = all_star_m3[0]
-hbar_star_value_m2= all_star_m2[0]
-hbar_star_value_m1= all_star_m1[0]
-hbar_star_value_0= all_star_0[0]
-hbar_star_value_1= all_star_1[0]
-hbar_star_value_2= all_star_2[0]
-hbar_star_value_3= all_star_3[0]
+hbar_inf = 1
 
-
-np.save(f'./save_hbar_NS/matrice_m3.npy',all_m3)
-np.save(f'./save_hbar_NS/matrice_m2.npy',all_m2)
-np.save(f'./save_hbar_NS/matrice_m1.npy',all_m1)
-np.save(f'./save_hbar_NS/matrice_0.npy',all_0)
-np.save(f'./save_hbar_NS/matrice_1.npy',all_1)
-np.save(f'./save_hbar_NS/matrice_2.npy',all_2)
-np.save(f'./save_hbar_NS/matrice_3.npy',all_3)
-
-np.save(f'./save_hbar_NS/matrice_star_m3.npy',all_star_m3)
-np.save(f'./save_hbar_NS/matrice_star_m2.npy',all_star_m2)
-np.save(f'./save_hbar_NS/matrice_star_m1.npy',all_star_m1)
-np.save(f'./save_hbar_NS/matrice_star_0.npy',all_star_0)
-np.save(f'./save_hbar_NS/matrice_star_1.npy',all_star_1)
-np.save(f'./save_hbar_NS/matrice_star_2.npy',all_star_2)
-np.save(f'./save_hbar_NS/matrice_star_3.npy',all_star_3)
+print('L\'erreur faite avec une dépenance en $\hbar^-^3$ est de ', f"{value_m3:.0f}", '%')
+# print('L\'erreur faite avec une dépenance en $\hbar^-^2$ est de ', f"{value_m2:.0f}", '%')
+# print('L\'erreur faite avec une dépenance en $\hbar^-^1$ est de ', f"{value_m1:.0f}", '%')
+# print('L\'erreur faite avec une dépenance en $\hbar^^1$ est de ', f"{value_1:.0f}", '%')
+# print('L\'erreur faite avec une dépenance en $\hbar^^2$ est de ', f"{value_2:.0f}", '%')
+# print('L\'erreur faite avec une dépenance en $\hbar^^3$ est de ', f"{value_3:.0f}", '%')
