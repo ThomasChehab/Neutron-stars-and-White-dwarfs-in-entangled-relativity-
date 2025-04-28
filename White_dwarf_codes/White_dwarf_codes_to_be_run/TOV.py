@@ -420,7 +420,7 @@ class TOV():
             os.makedirs(folder_path) 
         Name = f"./hbar_folder/hbar_data{i}.txt"
         if not os.path.exists(Name):
-            open(Name, 'w').close()  
+            open(Name, 'w').close()
         with open(Name, 'w') as f:
             for element in self.delta_hbar:
                 f.write(str(element) + '\n')
@@ -433,7 +433,7 @@ class TOV():
             os.makedirs(folder_path) 
         Name = f"./radius_folder/radius_data{i}.txt"
         if not os.path.exists(Name):
-            open(Name, 'w').close()  
+            open(Name, 'w').close()
         with open(Name, 'w') as f:
             for element in self.radius:
                 f.write(str(element) + '\n')
