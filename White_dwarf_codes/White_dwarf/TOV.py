@@ -487,6 +487,21 @@ def verify():
     if os.path.exists('./WD_data.dat'):
         os.remove('./WD_data.dat')
 
+def verify_folder(folder_list):
+
+    missing_folders = [folder for folder in folder_list if not os.path.isdir(folder)]
+
+    if missing_folders:
+        print("missing folders :")
+        for folder in missing_folders:
+            print(f"- {folder}")
+        return False
+    else:
+        print("All necessary folders are present")
+        return True
+
+
+
     #Next function goal is to recover data of white dwarf and obtain the final plot.
 def Plot_all_hbar():
         #Recovering density data

@@ -21,22 +21,23 @@ densities = np.linspace(np.log(lowest_density), np.log(highest_density), 250)
 densities = np.exp(densities)
 count = 0
 
-# verify() #delete existing fiels to create new ones
-# for density in tqdm.tqdm(densities):
-#
-#     tov = TOV(density , PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, dilaton_active, log_active,count)
-#     PhiInit = tov.find_dilaton_center()[0] #find the value of phi at the center to have phi = 1 at infinity
-#     tov = TOV(density , PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, dilaton_active, log_active,count)
-#     tov.ComputeTOV() #computing star's data
-#
-#     tov.recover_star_radius() # saving star's data
-#     tov.recover_hbar_star()
-#     tov.hbar_into_txt(count)
-#     tov.radius_into_txt(count)
-#     tov.density_into_txt()
-Plot_all_hbar() #plot the variation of hbar versus the distance for various densities
+folder_list = ['./hbar_folder', './init_density_folder', './radius_folder', './star_hbar_folder', './star_radius_folder']
 
+if verify_folder(folder_list):
+    Plot_all_hbar() #plot the variation of hbar versus the distance for various densities
+else:
+    print('All folders are not present. Let\'s compute the data')
+    verify()
+    for density in tqdm.tqdm(densities):
+        tov = TOV(density , PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, dilaton_active, log_active,count)
+        PhiInit = tov.find_dilaton_center()[0] #find the value of phi at the center to have phi = 1 at infinity
+        tov = TOV(density , PsiInit, PhiInit, radiusMax_in, radiusMax_out, Npoint, option, dilaton_active, log_active,count)
+        tov.ComputeTOV() #computing star's data
 
-
-
-
+        tov.recover_star_radius() # saving star's data
+        tov.recover_hbar_star()
+        tov.hbar_into_txt(count)
+        tov.radius_into_txt(count)
+        tov.density_into_txt()
+        count += 1
+    Plot_all_hbar()
