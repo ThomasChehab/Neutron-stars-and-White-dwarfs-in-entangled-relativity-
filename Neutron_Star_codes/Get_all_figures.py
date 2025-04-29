@@ -425,69 +425,90 @@ if verify_files(matrices_list):
 else:
     print('Required files are not present, let\'s compute them')
 
-    n = 1000 # 4000
-    den_space = np.linspace(100,2000,num=n)
-    size_a = np.array([])
-    mass_a = np.array([])
-    delta_hbar_a = np.array([])
-    delta_hbar0_a = np.array([])
-    vsurc_a = np.array([])
+##################################################################
 
-    size_a_GR = np.array([])
-    mass_a_GR = np.array([])
-    delta_hbar_a_GR = np.array([])
-    vsurc_a_GR = np.array([])
+    n = 1000
+    den_space = np.linspace(100, 2000, num=n)
 
-    size_a_ER_retro = np.array([])
-    mass_a_ER_retro = np.array([])
-    delta_hbar_a_ER_retro = np.array([])
-    delta_hbar0_a_ER_retro = np.array([])
-    vsurc_a_ER_retro = np.array([])
+    # Répertoire de sauvegarde
+    save_dir = 'save_hbar_NS'
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
 
-    retro = False
+    # Fichiers
+    all_a = os.path.join(save_dir, f'matrice_{n}.npy')
+    all_a_GR = os.path.join(save_dir, f'matrice_{n}_GR.npy')
+    all_a_ER_retro = os.path.join(save_dir, f'matrice_{n}_ER_retro.npy')
 
-    if not os.path.exists('save_hbar_NS'):
-        os.makedirs('save_hbar_NS')
+    # Chargement des données existantes
+    if os.path.exists(all_a):
+        size_a, mass_a, delta_hbar_a, delta_hbar0_a, vsurc_a = np.load(all_a, allow_pickle=True)
+        print(f"Fichier trouvé : {all_a}")
+        start_idx = len(size_a)
+    else:
+        size_a = np.array([])
+        mass_a = np.array([])
+        delta_hbar_a = np.array([])
+        delta_hbar0_a = np.array([])
+        vsurc_a = np.array([])
+        start_idx = 0
 
-    for den in tqdm(den_space):
+    if os.path.exists(all_a_GR):
+        size_a_GR, mass_a_GR, delta_hbar_a_GR, vsurc_a_GR = np.load(all_a_GR, allow_pickle=True)
+        print(f"Fichier trouvé : {all_a_GR}")
+    else:
+        size_a_GR = np.array([])
+        mass_a_GR = np.array([])
+        delta_hbar_a_GR = np.array([])
+        vsurc_a_GR = np.array([])
 
-        size_e3_GR, mass_GR, phi_s_GR, phi_0_GR, vsurc_GR = run_GR(den) # Run in general relativity
+    if os.path.exists(all_a_ER_retro):
+        size_a_ER_retro, mass_a_ER_retro, delta_hbar_a_ER_retro, delta_hbar0_a_ER_retro, vsurc_a_ER_retro = np.load(all_a_ER_retro, allow_pickle=True)
+        print(f"Fichier trouvé : {all_a_ER_retro}")
+    else:
+        size_a_ER_retro = np.array([])
+        mass_a_ER_retro = np.array([])
+        delta_hbar0_a_ER_retro = np.array([])
+        delta_hbar_a_ER_retro = np.array([])
+        vsurc_a_ER_retro = np.array([])
 
-        size_a_GR = np.append(size_a_GR,size_e3_GR/1e3)
+    # Boucle principale avec reprise
+    for i in tqdm(range(start_idx, n)):
+        den = den_space[i]
+
+        # --- GR ---
+        size_e3_GR, mass_GR, phi_s_GR, phi_0_GR, vsurc_GR = run_GR(den)
+        size_a_GR = np.append(size_a_GR, size_e3_GR / 1e3)
         mass_a_GR = np.append(mass_a_GR, mass_GR)
-        delta_hbar_a_GR = np.append(delta_hbar_a_GR, - (phi_s_GR-1) / 2.)
-        vsurc_a_GR = np.append(vsurc_a_GR,vsurc_GR)
+        delta_hbar_a_GR = np.append(delta_hbar_a_GR, - (phi_s_GR - 1) / 2.)
+        vsurc_a_GR = np.append(vsurc_a_GR, vsurc_GR)
 
-
-        size_e3, mass, phi_s, phi_0, vsurc = run_ER(den) # Run in entangled relativity
-
-        size_a = np.append(size_a,size_e3/1e3)
+        # --- ER ---
+        size_e3, mass, phi_s, phi_0, vsurc = run_ER(den)
+        size_a = np.append(size_a, size_e3 / 1e3)
         mass_a = np.append(mass_a, mass)
-        delta_hbar_a = np.append(delta_hbar_a, - (phi_s-1) / 2.)
-        delta_hbar0_a = np.append(delta_hbar0_a, - (phi_0-1) / 2.)
-        vsurc_a = np.append(vsurc_a,vsurc)
+        delta_hbar_a = np.append(delta_hbar_a, - (phi_s - 1) / 2.)
+        delta_hbar0_a = np.append(delta_hbar0_a, - (phi_0 - 1) / 2.)
+        vsurc_a = np.append(vsurc_a, vsurc)
 
-
-        size_e3_ER_retro, mass_ER_retro, phi_s_ER_retro, phi_0_ER_retro, vsurc_ER_retro = run_ER_retro(den) # Run in entangled relativity with retroation
-
-        size_a_ER_retro = np.append(size_a_ER_retro,size_e3_ER_retro/1e3)
+        # --- ER avec rétroaction ---
+        size_e3_ER_retro, mass_ER_retro, phi_s_ER_retro, phi_0_ER_retro, vsurc_ER_retro = run_ER_retro(den)
+        size_a_ER_retro = np.append(size_a_ER_retro, size_e3_ER_retro / 1e3)
         mass_a_ER_retro = np.append(mass_a_ER_retro, mass_ER_retro)
-        delta_hbar_a_ER_retro = np.append(delta_hbar_a_ER_retro, - (phi_s_ER_retro-1) / 2.)
-        delta_hbar0_a_ER_retro = np.append(delta_hbar0_a_ER_retro, - (phi_0_ER_retro-1) / 2.)
-        vsurc_a_ER_retro = np.append(vsurc_a_ER_retro,vsurc_ER_retro)
+        delta_hbar_a_ER_retro = np.append(delta_hbar_a_ER_retro, - (phi_s_ER_retro - 1) / 2.)
+        delta_hbar0_a_ER_retro = np.append(delta_hbar0_a_ER_retro, - (phi_0_ER_retro - 1) / 2.)
+        vsurc_a_ER_retro = np.append(vsurc_a_ER_retro, vsurc_ER_retro)
 
+        # Sauvegarde après chaque itération
+        np.save(all_a, [size_a, mass_a, delta_hbar_a, delta_hbar0_a, vsurc_a])
+        np.save(all_a_GR, [size_a_GR, mass_a_GR, delta_hbar_a_GR, vsurc_a_GR])
+        np.save(all_a_ER_retro, [size_a_ER_retro, mass_a_ER_retro, delta_hbar_a_ER_retro, delta_hbar0_a_ER_retro, vsurc_a_ER_retro])
 
-    all_a = [size_a,mass_a,delta_hbar_a,delta_hbar0_a,vsurc_a]
-    all_a_GR = [size_a_GR,mass_a_GR,delta_hbar_a_GR,vsurc_a_GR]
-    all_a_ER_retro = [size_a_ER_retro,mass_a_ER_retro,delta_hbar_a_ER_retro,delta_hbar0_a_ER_retro,vsurc_a_ER_retro]
+    ############################################################################
+    all_a = list(np.load(f'./save_hbar_NS/matrice_{n}.npy', allow_pickle=True))
+    all_a_GR = list(np.load(f'./save_hbar_NS/matrice_{n}_GR.npy', allow_pickle=True))
+    all_a_ER_retro = list(np.load(f'./save_hbar_NS/matrice_{n}_ER_retro.npy', allow_pickle=True))
 
-
-    if not os.path.exists('save_hbar_NS'):
-        os.makedirs('save_hbar_NS')
-
-    np.save(f'./save_hbar_NS/matrice_{n}.npy',all_a)
-    np.save(f'./save_hbar_NS/matrice_{n}_GR.npy',all_a_GR)
-    np.save(f'./save_hbar_NS/matrice_{n}_ER_retro.npy',all_a_ER_retro)
 
     size_a = all_a[0]
     mass_a = all_a[1]
