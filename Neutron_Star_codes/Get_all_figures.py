@@ -430,20 +430,20 @@ else:
     n = 1000
     den_space = np.linspace(100, 2000, num=n)
 
-    # Répertoire de sauvegarde
+    # Saving repository
     save_dir = 'save_hbar_NS'
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
-    # Fichiers
+    # Files
     all_a = os.path.join(save_dir, f'matrice_{n}.npy')
     all_a_GR = os.path.join(save_dir, f'matrice_{n}_GR.npy')
     all_a_ER_retro = os.path.join(save_dir, f'matrice_{n}_ER_retro.npy')
 
-    # Chargement des données existantes
+    # Loading existing data
     if os.path.exists(all_a):
         size_a, mass_a, delta_hbar_a, delta_hbar0_a, vsurc_a = np.load(all_a, allow_pickle=True)
-        print(f"Fichier trouvé : {all_a}")
+        print(f"Founded file : {all_a}")
         start_idx = len(size_a)
     else:
         size_a = np.array([])
@@ -455,7 +455,7 @@ else:
 
     if os.path.exists(all_a_GR):
         size_a_GR, mass_a_GR, delta_hbar_a_GR, vsurc_a_GR = np.load(all_a_GR, allow_pickle=True)
-        print(f"Fichier trouvé : {all_a_GR}")
+        print(f"Founded file : {all_a_GR}")
     else:
         size_a_GR = np.array([])
         mass_a_GR = np.array([])
@@ -464,7 +464,7 @@ else:
 
     if os.path.exists(all_a_ER_retro):
         size_a_ER_retro, mass_a_ER_retro, delta_hbar_a_ER_retro, delta_hbar0_a_ER_retro, vsurc_a_ER_retro = np.load(all_a_ER_retro, allow_pickle=True)
-        print(f"Fichier trouvé : {all_a_ER_retro}")
+        print(f"Founded file : {all_a_ER_retro}")
     else:
         size_a_ER_retro = np.array([])
         mass_a_ER_retro = np.array([])
@@ -472,7 +472,6 @@ else:
         delta_hbar_a_ER_retro = np.array([])
         vsurc_a_ER_retro = np.array([])
 
-    # Boucle principale avec reprise
     for i in tqdm(range(start_idx, n)):
         den = den_space[i]
 
@@ -491,7 +490,7 @@ else:
         delta_hbar0_a = np.append(delta_hbar0_a, - (phi_0 - 1) / 2.)
         vsurc_a = np.append(vsurc_a, vsurc)
 
-        # --- ER avec rétroaction ---
+        # --- ER with retroaction ---
         size_e3_ER_retro, mass_ER_retro, phi_s_ER_retro, phi_0_ER_retro, vsurc_ER_retro = run_ER_retro(den)
         size_a_ER_retro = np.append(size_a_ER_retro, size_e3_ER_retro / 1e3)
         mass_a_ER_retro = np.append(mass_a_ER_retro, mass_ER_retro)
@@ -499,16 +498,16 @@ else:
         delta_hbar0_a_ER_retro = np.append(delta_hbar0_a_ER_retro, - (phi_0_ER_retro - 1) / 2.)
         vsurc_a_ER_retro = np.append(vsurc_a_ER_retro, vsurc_ER_retro)
 
-        # Sauvegarde après chaque itération
+        # saving after each repetition
         np.save(all_a, [size_a, mass_a, delta_hbar_a, delta_hbar0_a, vsurc_a])
         np.save(all_a_GR, [size_a_GR, mass_a_GR, delta_hbar_a_GR, vsurc_a_GR])
         np.save(all_a_ER_retro, [size_a_ER_retro, mass_a_ER_retro, delta_hbar_a_ER_retro, delta_hbar0_a_ER_retro, vsurc_a_ER_retro])
 
     ############################################################################
+    # converting recorded data into list
     all_a = list(np.load(f'./save_hbar_NS/matrice_{n}.npy', allow_pickle=True))
     all_a_GR = list(np.load(f'./save_hbar_NS/matrice_{n}_GR.npy', allow_pickle=True))
     all_a_ER_retro = list(np.load(f'./save_hbar_NS/matrice_{n}_ER_retro.npy', allow_pickle=True))
-
 
     size_a = all_a[0]
     mass_a = all_a[1]
@@ -543,8 +542,6 @@ else:
     print(f'In ER the relative variation of hbar for the most massive NS of {mass_a[index_max_M]:.1f} Solar mass and a radius of {size_a[index_max_M]:.1f} km is {delta_hbar_a[index_max_M] * 1e2:.1f} % with an associated density of {den_space[index_max_M]:.1f} MeV/fm3')
 
     print(f'In ER with retroaction the relative variation of hbar for the most massive NS of {mass_a_ER_retro[index_max_M_ER_retro]:.1f} Solar mass and a radius of {size_a_ER_retro[index_max_M_ER_retro]:.1f} km is {delta_hbar_a_ER_retro[index_max_M_ER_retro] * 1e2:.1f} % with an associated density of {den_space[index_max_M_ER_retro]:.1f} MeV/fm3 \n')
-
-
 
     R_tresh = all_a[0][all_a[4] < 1/ np.sqrt(3)]
     M_tresh = all_a[1][all_a[4] < 1/ np.sqrt(3)]
