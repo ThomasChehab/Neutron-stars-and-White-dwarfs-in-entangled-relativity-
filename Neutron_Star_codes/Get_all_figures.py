@@ -399,13 +399,13 @@ if verify_files(matrices_list):
     # hbar_value_2= all_2[0]
     # hbar_value_3= all_3[0]
 
-    hbar_star_value_m3 = all_star_m3#[0]
-    hbar_star_value_m2= all_star_m2#[0]
-    hbar_star_value_m1= all_star_m1#[0]
-    hbar_star_value_0= all_star_0#[0]
-    hbar_star_value_1= all_star_1#[0]
-    hbar_star_value_2= all_star_2#[0]
-    hbar_star_value_3= all_star_3#[0]
+    hbar_star_value_m3 = all_star_m3[0]
+    hbar_star_value_m2= all_star_m2[0]
+    hbar_star_value_m1= all_star_m1[0]
+    hbar_star_value_0= all_star_0[0]
+    hbar_star_value_1= all_star_1[0]
+    hbar_star_value_2= all_star_2[0]
+    hbar_star_value_3= all_star_3[0]
 
     hbar_inf = 1
     value_m3 = (hbar_star_value_m3 - hbar_star_value_0)/(hbar_star_value_m3-hbar_inf) * 100
