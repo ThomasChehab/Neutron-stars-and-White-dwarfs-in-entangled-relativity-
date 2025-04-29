@@ -354,7 +354,6 @@ def save_var_latex(key, value):
         for key in dict_var.keys():
             f.write(f"{key},{dict_var[key]}\n")
 
-
 def save_var_latex_dependence(key, value):
     dict_var = {}
     file_path = os.path.join(os.getcwd(), "NS_hbar_dependency_data.dat")
@@ -368,4 +367,16 @@ def verify():
         os.remove('./NS_data.dat')
     if os.path.exists('./NS_hbar_dependency_data.dat'):
         os.remove('./NS_hbar_dependency_data.dat')
+
+def verify_files(matrices):
+    missing_file = [files for files in matrices if not os.path.exists(files)]
+
+    if missing_file:
+        print("Following files are missing :\n")
+        for fichier in missing_file:
+            print(f"- {fichier}")
+        return False  # if one files is missing
+    else:
+        print("All files are present.\n")
+        return True  # Each files exists
 
