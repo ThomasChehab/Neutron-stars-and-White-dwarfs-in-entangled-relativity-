@@ -17,7 +17,7 @@ log_active = False # Change for True for seeing star's data
 dilaton_active = True # Change for false for deactivating scalar field
 lowest_density = 1e9 # kg/m3
 highest_density = 1e13
-densities = np.linspace(np.log(lowest_density), np.log(highest_density), 250)
+densities = np.linspace(np.log(lowest_density), np.log(highest_density), 5)
 densities = np.exp(densities)
 count = 0
 

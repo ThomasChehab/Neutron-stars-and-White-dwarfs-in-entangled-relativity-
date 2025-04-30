@@ -17,8 +17,9 @@ from matplotlib.ticker import FormatStrFormatter
 import mplhep as hep
 hep.style.use("ATLAS")
 
+n = 1000
 
-matrices_list = ['./save_hbar_NS/matrice_1000.npy', './save_hbar_NS/matrice_1000_GR.npy', './save_hbar_NS/matrice_1000_ER_retro.npy','./save_hbar_NS/matrice_normal.npy','./save_hbar_NS/matrice_retro.npy','./save_hbar_NS/matrice_radius_star.npy','./save_hbar_NS/matrice_star_m3.npy', './save_hbar_NS/matrice_star_m2.npy','./save_hbar_NS/matrice_star_m1.npy', './save_hbar_NS/matrice_star_0.npy', './save_hbar_NS/matrice_star_1.npy','./save_hbar_NS/matrice_star_2.npy','./save_hbar_NS/matrice_star_3.npy']
+matrices_list = [f'./save_hbar_NS/matrice_{n}.npy', f'./save_hbar_NS/matrice_{n}_GR.npy', f'./save_hbar_NS/matrice_{n}_ER_retro.npy','./save_hbar_NS/matrice_normal.npy','./save_hbar_NS/matrice_retro.npy','./save_hbar_NS/matrice_radius_star.npy','./save_hbar_NS/matrice_star_m3.npy', './save_hbar_NS/matrice_star_m2.npy','./save_hbar_NS/matrice_star_m1.npy', './save_hbar_NS/matrice_star_0.npy', './save_hbar_NS/matrice_star_1.npy','./save_hbar_NS/matrice_star_2.npy','./save_hbar_NS/matrice_star_3.npy']
 
 
 # matrices_list = ['./save_hbar_NS/matrice_2.npy', './save_hbar_NS/matrice_2_GR.npy', './save_hbar_NS/matrice_2_ER_retro.npy','./save_hbar_NS/matrice_normal.npy','./save_hbar_NS/matrice_retro.npy','./save_hbar_NS/matrice_radius_star.npy','./save_hbar_NS/matrice_star_m3.npy', './save_hbar_NS/matrice_star_m2.npy','./save_hbar_NS/matrice_star_m1.npy', './save_hbar_NS/matrice_star_0.npy', './save_hbar_NS/matrice_star_1.npy','./save_hbar_NS/matrice_star_2.npy','./save_hbar_NS/matrice_star_3.npy']
@@ -184,7 +185,7 @@ def hbar_dependence_effect(initDensity):
 
 if verify_files(matrices_list):
 
-    n = 1000
+
     den_space = np.linspace(100,2000,num=n)
     all_a = np.load(f'save_hbar_NS/matrice_{n}.npy')
     size_a = all_a[0]
@@ -427,7 +428,7 @@ else:
 
 ##################################################################
 
-    n = 1000
+    # n = 1000
     den_space = np.linspace(100, 2000, num=n)
 
     # Saving repository
