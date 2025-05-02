@@ -12,4 +12,4 @@ This command will execute the code and generate six different things.
 
 - A figure named deltahbar_vs_radius_WD.png, which shows the variation of ℏ as a function of the distance to the star, depending on the core density values. This corresponds to Figure 6 in the paper.
 
-The code works with precomputed data (stored in text files). If you want to run the calculations yourself, delete the folders that contain the data and run the code as explained above.
+The code works with precomputed data (stored in text files). If you want to run the calculations yourself, use the folder named White_dwarf_to_be_run.
