@@ -1,15 +1,11 @@
-This code aimed to study the variation of hbar in a white dwarf star, predicted by the theory of Entangled relativity regarding the value of the core density.
+This code is designed to study the variation of ℏ in a white dwarf star, as predicted by the theory of Entangled Relativity, with respect to the core density value.
 
-To launch the code, download everything from the GitHub repository. Then, you need to install the packages listed in the requirements.txt file.
+To run the code, first download all the files from the GitHub repository. Then, install the required packages listed in the requirements.txt file.
 
-Next, in a terminal, run:
+Next, open a terminal and run the following command:
 
 " python3 Get_all_figures.py " 
 
-This command will execute the code and generate six different things.
+This will execute the code and generate a folder containing the matrices with the computed data. It will also save a figure named deltahbar_vs_radius_WD.png, which shows the variation of ℏ as a function of the distance from the star, depending on the core density values. This corresponds to Figure 6 in the paper.
 
-- Four folders: one contains the stored data of the predicted values of ℏ (hbar_folder), another contains the stored data of the star's radius (radius_folder), a third one contains the core density values (init_density_folder), another one contains the data of ℏ at the radius of the star, and the last one stores the values of the stars' radii. These folders contain data for 250 different white dwarf simulations from 10⁹ to 10¹³km/m³.
-
-- A figure named deltahbar_vs_radius_WD.png, which shows the variation of ℏ as a function of the distance to the star, depending on the core density values. This corresponds to Figure 6 in the paper.
-
-The code works with precomputed data (stored in text files). If you want to run the calculations yourself, use the folder named White_dwarf_to_be_run.
+The code runs for approximately one hour. However, it saves the computed data as it goes, so you don't need to rerun it to regenerate the figure. It also saves progress during execution — if the code is stopped after 20 minutes, for example, you won’t lose those 20 minutes of computation.
