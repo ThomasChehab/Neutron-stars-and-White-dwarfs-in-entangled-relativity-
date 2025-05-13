@@ -6,6 +6,6 @@ Next, open a terminal and run the following command:
 
 " python3 Get_all_figures.py " 
 
-This will execute the code and generate a folder containing the matrices with the computed data. It will also save a figure named deltahbar_vs_radius_WD.png, which shows the variation of ℏ as a function of the distance from the star, depending on the core density values. This corresponds to Figure 6 in the paper.
+This will execute the code and generate a folder containing the matrices with the computed data. It will also save a figure named deltahbar_vs_radius_WD.png, which shows the variation of ℏ as a function of the distance from the star, depending on the core density values. This corresponds to Figure 6 in the paper hal-04996227.
 
 The code runs for approximately one hour. However, it saves the computed data as it goes, so you don't need to rerun it to regenerate the figure. It also saves progress during execution — if the code is stopped after 20 minutes, for example, you won’t lose those 20 minutes of computation.
