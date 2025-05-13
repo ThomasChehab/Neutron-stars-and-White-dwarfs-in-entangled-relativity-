@@ -11,6 +11,7 @@ This command will execute the code and generate a folder named save_hbar_NS. Ins
 - Two showing the star mass as a function of radius, depending on their relative variation in ℏ. These correspond to values at the center of the star (scatter_1000.png) and at the surface (scatter_treshold_1000.png).
 - A third figure, 'hbar_variation_comparison_NS.png', which illustrates the variation of ℏ as a function of the distance to the star, comparing the cases with and without retroaction.
 
+These are the figures 3,4,5 of the paper available at hal-04996227.
 The code works with precomputed data (stored in the matrices). If you want to run the calculations yourself, delete the folder that contains the data and launch the code as explained above.
 
-The code runs for approximately twelve hour. However, it saves the computed data as it goes, so you don't need to rerun it to regenerate the figure. It also saves progress during execution — if the code is stopped after 2 hours, for example, you won’t lose those 2 hours of computation.
+The code runs for approximately twelve hours. However, it saves the computed data as it goes, so you don't need to rerun it to regenerate the figure. It also saves progress during execution — if the code is stopped after 2 hours, for example, you won’t lose those 2 hours of computation.
