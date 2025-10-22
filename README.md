@@ -6,3 +6,5 @@ They have been used to generate Figures 3–6 of the paper Variation of the Plan
 
 The codes for white dwarf and neutron star computations are separated.
 In each folder (neutron_star and white_dwarf), you will find the codes that generates all the figures of the paper. Since the computations for neutron star is very time-consuming (almost 12 hours), the data have been precomputed and saved, allowing the code to directly generate the figures. If you would like to generate them from scratch you can directly delete the data (the folder named ' save_hbar_NS ' in the neutron star folder) and launch the code.
+
+Authors : Thomas Chehab, Olivier Minazzoli
